@@ -1,0 +1,16 @@
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\bin\Debug\net5.0\AlexTeerlinck.exe
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\bin\Debug\net5.0\AlexTeerlinck.deps.json
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\bin\Debug\net5.0\AlexTeerlinck.runtimeconfig.json
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\bin\Debug\net5.0\AlexTeerlinck.runtimeconfig.dev.json
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\bin\Debug\net5.0\AlexTeerlinck.dll
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\bin\Debug\net5.0\ref\AlexTeerlinck.dll
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\bin\Debug\net5.0\AlexTeerlinck.pdb
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\obj\Debug\net5.0\AlexTeerlinck.csprojAssemblyReference.cache
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\obj\Debug\net5.0\AlexTeerlinck.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\obj\Debug\net5.0\AlexTeerlinck.AssemblyInfoInputs.cache
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\obj\Debug\net5.0\AlexTeerlinck.AssemblyInfo.cs
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\obj\Debug\net5.0\AlexTeerlinck.csproj.CoreCompileInputs.cache
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\obj\Debug\net5.0\AlexTeerlinck.dll
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\obj\Debug\net5.0\ref\AlexTeerlinck.dll
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\obj\Debug\net5.0\AlexTeerlinck.pdb
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\obj\Debug\net5.0\AlexTeerlinck.genruntimeconfig.cache

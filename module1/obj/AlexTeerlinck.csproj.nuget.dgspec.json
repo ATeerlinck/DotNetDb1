@@ -1,0 +1,60 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Shado\\OneDrive\\Documents\\School Stuff\\WCTC\\DotNetDb\\AlexTeerlinck\\AlexTeerlinck.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Shado\\OneDrive\\Documents\\School Stuff\\WCTC\\DotNetDb\\AlexTeerlinck\\AlexTeerlinck.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Shado\\OneDrive\\Documents\\School Stuff\\WCTC\\DotNetDb\\AlexTeerlinck\\AlexTeerlinck.csproj",
+        "projectName": "AlexTeerlinck",
+        "projectPath": "C:\\Users\\Shado\\OneDrive\\Documents\\School Stuff\\WCTC\\DotNetDb\\AlexTeerlinck\\AlexTeerlinck.csproj",
+        "packagesPath": "C:\\Users\\Shado\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Shado\\OneDrive\\Documents\\School Stuff\\WCTC\\DotNetDb\\AlexTeerlinck\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Shado\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
