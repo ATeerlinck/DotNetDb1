@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-namespace AlexTeerlinck
+namespace module1
 {
     class Program
     {

@@ -1,0 +1,16 @@
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\module1\bin\Debug\net5.0\module1.exe
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\module1\bin\Debug\net5.0\module1.deps.json
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\module1\bin\Debug\net5.0\module1.runtimeconfig.json
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\module1\bin\Debug\net5.0\module1.runtimeconfig.dev.json
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\module1\bin\Debug\net5.0\module1.dll
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\module1\bin\Debug\net5.0\ref\module1.dll
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\module1\bin\Debug\net5.0\module1.pdb
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\module1\obj\Debug\net5.0\module1.csprojAssemblyReference.cache
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\module1\obj\Debug\net5.0\module1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\module1\obj\Debug\net5.0\module1.AssemblyInfoInputs.cache
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\module1\obj\Debug\net5.0\module1.AssemblyInfo.cs
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\module1\obj\Debug\net5.0\module1.csproj.CoreCompileInputs.cache
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\module1\obj\Debug\net5.0\module1.dll
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\module1\obj\Debug\net5.0\ref\module1.dll
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\module1\obj\Debug\net5.0\module1.pdb
+C:\Users\Shado\OneDrive\Documents\School Stuff\WCTC\DotNetDb\AlexTeerlinck\module1\obj\Debug\net5.0\module1.genruntimeconfig.cache
