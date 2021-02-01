@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Shado\\OneDrive\\Documents\\School Stuff\\WCTC\\DotNetDb\\AlexTeerlinck\\module1\\module1.csproj": {}
+    "D:\\WCTC\\DotNetDb\\AlexTeerlinck\\module1\\module1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Shado\\OneDrive\\Documents\\School Stuff\\WCTC\\DotNetDb\\AlexTeerlinck\\module1\\module1.csproj": {
+    "D:\\WCTC\\DotNetDb\\AlexTeerlinck\\module1\\module1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Shado\\OneDrive\\Documents\\School Stuff\\WCTC\\DotNetDb\\AlexTeerlinck\\module1\\module1.csproj",
+        "projectUniqueName": "D:\\WCTC\\DotNetDb\\AlexTeerlinck\\module1\\module1.csproj",
         "projectName": "module1",
-        "projectPath": "C:\\Users\\Shado\\OneDrive\\Documents\\School Stuff\\WCTC\\DotNetDb\\AlexTeerlinck\\module1\\module1.csproj",
+        "projectPath": "D:\\WCTC\\DotNetDb\\AlexTeerlinck\\module1\\module1.csproj",
         "packagesPath": "C:\\Users\\Shado\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Shado\\OneDrive\\Documents\\School Stuff\\WCTC\\DotNetDb\\AlexTeerlinck\\module1\\obj\\",
+        "outputPath": "D:\\WCTC\\DotNetDb\\AlexTeerlinck\\module1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Shado\\AppData\\Roaming\\NuGet\\NuGet.Config"
