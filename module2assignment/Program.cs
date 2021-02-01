@@ -69,7 +69,7 @@ namespace module2assignment
                                 total += Convert.ToInt32(day);
                             }
                             double Avg = (double)total/7;
-                            Console.WriteLine($"End of the Week of {date:MMM, dd, yyyy}\n Mo Tu We Th Fr Sa Su Tot Avg\n -- -- -- -- -- -- -- --- ---\n {hours[1],-2} {hours[2],-2} {hours[3],-2} {hours[4],-2} {hours[5],-2} {hours[6],-2} {hours[0],-2} {total,-3} {Avg:0.#}");
+                            Console.WriteLine($"End of the Week of {date:MMM, dd, yyyy}\n Mo Tu We Th Fr Sa Su Tot Avg\n -- -- -- -- -- -- -- --- ---\n {hours[1],-2} {hours[2],-2} {hours[3],-2} {hours[4],-2} {hours[5],-2} {hours[6],-2} {hours[0],-2} {total,-3} {Avg:0.#}\n");
                         }
                         sr.Close();
 
