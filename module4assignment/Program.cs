@@ -28,6 +28,7 @@ namespace module4assignment
                             bool logged = false;
                             string line = sr.ReadLine();
                             string[] movie = line.Split(",");
+                            string nameBackup = movie[1];
                             try {
                                 int n = Int32.Parse(movie[0]);
                             }
@@ -38,10 +39,13 @@ namespace module4assignment
                             }
                             try
                             {
-                            string[] getter = line.Split("\"");
-                            movie[1] = getter[1];
+                            
+                            movie[1] = line.Substring(line.IndexOf("\"")+1,line.LastIndexOf("\"")-8); //I don't know why LastIndexOf doesn't like working for the backend quote, but it would always give me an offset of characters.
                             }
-                            catch{}
+                            catch
+                            {
+                            movie[1] = nameBackup;
+                            }
                             if(logged){}
                             else{
                                 int length = movie.Length;
@@ -49,10 +53,10 @@ namespace module4assignment
                                 movie[length-1] = "";
                                 for(int i = 0; i<genres.Length; i++){
                                     movie[length-1] += genres[i];
-                                    if(genres.Length >length-1 && i!=genres.Length-1){
+                                    if(genres.Length >i-1 && i!=genres.Length-1){
                                         movie[length-1] += ", ";
                                     }
-                                    if(i==genres.Length-length-1){
+                                    if(i==genres.Length-2){
                                         movie[length-1] += "and ";
                                     }
                                 }
