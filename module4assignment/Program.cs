@@ -39,8 +39,16 @@ namespace module4assignment
                             }
                             try
                             {
-                            
-                            movie[1] = line.Substring(line.IndexOf("\"")+1,line.LastIndexOf("\"")-8); //I don't know why LastIndexOf doesn't like working for the backend quote, but it would always give me an offset of characters.
+                                if(movie.Length-2!=1){
+                                    for(int i=2;i<movie.Length;i++){
+                                        movie[1] += ","+movie[i];
+                                    }
+                                }
+                                if(line.IndexOf("\"")!=line.LastIndexOf("\"")){
+                                    int start = movie[1].IndexOf("\"")+1;
+                                    int end = movie[1].LastIndexOf("\"")-1;
+                                    movie[1] = movie[1].Substring(start, end); 
+                                }
                             }
                             catch
                             {
@@ -71,17 +79,10 @@ namespace module4assignment
                 }
                 else if(choice=="1"){
                     while (true)
-                    {
-                        Console.WriteLine("Enter a new movie (Y/N)?");
-                        string answer = Console.ReadLine().ToUpper();
-                        if (answer != "Y") { break; }
+                    {   
+                        bool exists = false;
                         Console.WriteLine("Enter the movie name and year in the format \"Name (Year)\". No Quotes please");
-                        string name = Console.ReadLine();
-                        Console.WriteLine("Enter the movie's genres(if it has several, split them with a \"|\". If it has no genres, put nothing in)"); 
-                        string genres = Console.ReadLine();
-                        if(genres==null||genres==""){
-                            genres="(no genres listed)";
-                        }
+                        string name = Console.ReadLine();                        
                         StreamReader sr = new StreamReader(movies);
                         while (!sr.EndOfStream)
                         {
@@ -94,13 +95,51 @@ namespace module4assignment
                             catch {
                                 logged = true;
                             }
+                            string nameBackup = movie[1];
+
+                            try
+                            {
+                                if(movie.Length-2!=1){
+                                    for(int i=2;i<movie.Length;i++){
+                                        movie[1] += ","+movie[i];
+                                    }
+                                }
+                                if(line.IndexOf("\"")!=line.LastIndexOf("\"")){
+                                    int start = movie[1].IndexOf("\"")+1;
+                                    int end = movie[1].LastIndexOf("\"")-1;
+                                    movie[1] = movie[1].Substring(start, end); 
+                                }
+                            }
+                            catch
+                            {
+                            movie[1] = nameBackup;
+                            }
                             if(logged){}
-                            else{ID = Int32.Parse(movie[0]+1);}
+                            
+                            else if(movie[1].ToUpper()==name.ToUpper()){
+                                Console.WriteLine("This movie already exists in this database. Your movie will not be added");
+                                exists = true;
+                                break;
+                            }
+                            else{
+                                ID = Int32.Parse(movie[0])+1;
+                            }
+
                         }
                         sr.Close();
-                        StreamWriter sw = new StreamWriter(movies, true);
-                        sw.WriteLine("{0},\"{1}\",{2}", ID, name, genres);
-                        sw.Close();
+                        if(!exists){
+                            Console.WriteLine("Enter the movie's genres(if it has several, split them with a \"|\". If it has no genres, put nothing in)"); 
+                            string genres = Console.ReadLine();
+                            if(genres==null||genres==""||genres==" "){
+                                genres="(no genres listed)";
+                            }
+                            StreamWriter sw = new StreamWriter(movies, true);
+                            sw.WriteLine("{0},\"{1}\",{2}", ID, name, genres);
+                            sw.Close();
+                        }
+                        Console.WriteLine("Enter a new movie (Y/N)?");
+                        string answer = Console.ReadLine().ToUpper();
+                        if (answer != "Y") { break; }
                     }
                 }
             }while (choice == "1" || choice == "2");
