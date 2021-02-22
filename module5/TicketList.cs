@@ -43,5 +43,37 @@ namespace module5
             }
             return Tickets;
         }
+        public static void CreateTicket(string file){
+            StreamWriter sw = new StreamWriter(file, true);
+            while(true)
+            {
+                Console.WriteLine("Enter the ticket ID.");
+                int ticketID = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Enter the ticket summary.");
+                string summary = Console.ReadLine();
+                Console.WriteLine("Enter the ticket status.");
+                string status = Console.ReadLine();
+                Console.WriteLine("Enter the ticket priority.");
+                string priority = Console.ReadLine();
+                Console.WriteLine("Enter the ticket submitter.");
+                string submitter = Console.ReadLine();
+                Console.WriteLine("Enter the ticket's assigned person.");
+                string assigned = Console.ReadLine();
+                List<string> watchers = new List<string>();
+                string answe;
+                do{
+                    Console.WriteLine("Enter a ticket wathcer.");
+                    string watcher = Console.ReadLine();
+                    watchers.Add(watcher);
+                    Console.WriteLine("Is there another a watcher? (Y/N)");
+                    answe = Console.ReadLine().ToUpper();
+                } while(answe=="Y");
+                sw.Write("\n{0},{1},{2},{3},{4},{5},{6}", ticketID, summary, status, priority, submitter, assigned, string.Join("|",watchers));
+                Console.WriteLine("Enter a new yticket (Y/N)?");
+                string answer = Console.ReadLine().ToUpper();
+                if (answer != "Y") { break; }
+            }
+            sw.Close();
+        }
     }
 }

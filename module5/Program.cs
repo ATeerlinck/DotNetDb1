@@ -24,7 +24,6 @@ namespace module5
                         foreach(Ticket ticket in list.Tickets){
                                 Console.WriteLine(ticket);
                             }
-
                     }
                     else
                     {
@@ -33,29 +32,8 @@ namespace module5
                 }
                 else if (choice == "2")
                 {
-                    StreamWriter sw = new StreamWriter(file);
-                    while(true)
-                    {
-                        Console.WriteLine("Enter the ticket ID.");
-                        int ticketID = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("Enter the ticket summary.");
-                        string summary = Console.ReadLine();
-                        Console.WriteLine("Enter the ticket status.");
-                        string status = Console.ReadLine();
-                        Console.WriteLine("Enter the ticket priority.");
-                        string priority = Console.ReadLine();
-                        Console.WriteLine("Enter the ticket submitter.");
-                        string submitter = Console.ReadLine();
-                        Console.WriteLine("Enter the ticket's aassigned person.");
-                        string assigned = Console.ReadLine();
-                        Console.WriteLine("Enter the ticket watcher(s)(separate each watcher with a '|').");
-                        string watchers = Console.ReadLine();
-                        sw.WriteLine("{0},{1},{2},{3},{4},{5},{6}", ticketID, summary, status, priority, submitter, assigned, watchers);
-                        Console.WriteLine("Enter a new yticket (Y/N)?");
-                        string answer = Console.ReadLine().ToUpper();
-                        if (answer != "Y") { break; }
-                    }
-                    sw.Close();
+                    TicketList.CreateTicket(file);
+                    list.Tickets = TicketList.CreateTicketList(file);
                 }
             } while (choice == "1" || choice == "2");
         }
