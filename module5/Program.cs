@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 namespace module5
 {
     class Program
@@ -8,6 +9,7 @@ namespace module5
         {
             string file = "tickets.csv";
             string choice;
+            List<Ticket> Tickets = new List<Ticket>();
             do
             {
                 Console.WriteLine("1) Read data from file.");
@@ -22,21 +24,10 @@ namespace module5
                         StreamReader sr = new StreamReader(file);
                         while (!sr.EndOfStream)
                         {
-                            string line = sr.ReadLine();
-                            string[] ticket = line.Split(",");
-                            string[] watchers = ticket[6].Split("|");
-                            string watcherList = "";
-                            for(int i = 0; i<watchers.Length; i++){
-                                watcherList += watchers[i];
-                                if(watchers.Length >2 && i!=watchers.Length-1){
-                                    watcherList += ", ";
-                                }
-                                if(i==watchers.Length-2){
-                                    watcherList += "and ";
-                                }
+                            foreach(Ticket ticket in Tickets){
+                                Console.WriteLine(ticket);
                             }
-                            ticket[6] = watcherList;
-                            Console.WriteLine("TicketID:{0}, Summary:{1}, Status:{2}, Priority:{3}, Submitter:{4}, Assigned:{5}, Watching:{6}",ticket[0],ticket[1],ticket[2],ticket[3],ticket[4],ticket[5],ticket[6]);
+                            
                         }
                         sr.Close();
 
@@ -49,11 +40,8 @@ namespace module5
                 else if (choice == "2")
                 {
                     StreamWriter sw = new StreamWriter(file);
-                    for (int i = 0; i < 7; i++)
+                    while(true)
                     {
-                        Console.WriteLine("Enter a ticket (Y/N)?");
-                        string answer = Console.ReadLine().ToUpper();
-                        if (answer != "Y") { break; }
                         Console.WriteLine("Enter the ticket ID.");
                         int ticketID = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine("Enter the ticket summary.");
@@ -69,6 +57,9 @@ namespace module5
                         Console.WriteLine("Enter the ticket watcher(s)(separate each watcher with a '|').");
                         string watchers = Console.ReadLine();
                         sw.WriteLine("{0},{1},{2},{3},{4},{5},{6}", ticketID, summary, status, priority, submitter, assigned, watchers);
+                        Console.WriteLine("Enter a new yticket (Y/N)?");
+                        string answer = Console.ReadLine().ToUpper();
+                        if (answer != "Y") { break; }
                     }
                     sw.Close();
                 }
