@@ -11,7 +11,7 @@ namespace module5
         public string priority {get; set;}
         public string submitter {get; set;}
         public string assigned {get; set;}
-        List<string> watchers {get; set;}
+        public List<string> watchers {get; set;}
 
         public Ticket(){
             watchers = new List<string>();
@@ -29,8 +29,7 @@ namespace module5
                                     watcherList += "and ";
                                 }
                             }
-                            Console.WriteLine("TicketID:{0}, Summary:{1}, Status:{2}, Priority:{3}, Submitter:{4}, Assigned:{5}, Watching:{6}",ticketID,summary,status,priority,submitter,assigned,watcherList);
-            return base.ToString();
+            return $"TicketID :{ticketID}, Summary: {summary}, Status: {status}, Priority: {priority}, Submitter: {submitter}, Assigned: {assigned}, Watching: {watcherList}";
         }
     }
 }

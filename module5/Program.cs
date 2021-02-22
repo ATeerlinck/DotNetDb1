@@ -9,7 +9,7 @@ namespace module5
         {
             string file = "tickets.csv";
             string choice;
-            List<Ticket> Tickets = new List<Ticket>();
+            TicketList list = new TicketList(file);
             do
             {
                 Console.WriteLine("1) Read data from file.");
@@ -21,15 +21,9 @@ namespace module5
                 {
                     if (File.Exists(file))
                     {
-                        StreamReader sr = new StreamReader(file);
-                        while (!sr.EndOfStream)
-                        {
-                            foreach(Ticket ticket in Tickets){
+                        foreach(Ticket ticket in list.Tickets){
                                 Console.WriteLine(ticket);
                             }
-                            
-                        }
-                        sr.Close();
 
                     }
                     else
