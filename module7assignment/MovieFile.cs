@@ -61,10 +61,12 @@ namespace module7assignment
                     }
                     try{
                         movie.director = movieDetails[3];
-                        movie.runningTime = movieDetails[4];
+                        movie.runningTime = Timespan.Parse(movieDetails[4]);
                     }
                     catch (Exception ex){
                         logger.Error(ex.Message);
+                        movie.director = "unassigned";
+                        movie.runningTime = new TimeSpan(0);
                     }
                     Movies.Add(movie);
                 }
@@ -96,7 +98,7 @@ namespace module7assignment
                 // first generate movie id
                 movie.movieId = Movies.Max(m => m.movieId) + 1;
                 StreamWriter sw = new StreamWriter(filePath, true);
-                sw.WriteLine($"{movie.movieId},{movie.title},{string.Join("|", movie.genres)}");
+                sw.WriteLine($"{movie.movieId},{movie.title},{string.Join("|", movie.genres)},{movie.director},{movie.runningTime}");
                 sw.Close();
                 // add movie details to Lists
                 Movies.Add(movie);
