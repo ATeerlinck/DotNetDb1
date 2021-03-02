@@ -26,7 +26,7 @@ namespace module7assignment
                     if (File.Exists(scrubbedFile)){
                         movieFile = new MovieFile(scrubbedFile);
                         foreach(Movie movie in movieFile.Movies){
-                                Console.WriteLine(movie);
+                                Console.WriteLine(movie.Display());
                             }
                     }
                     else{
@@ -40,12 +40,12 @@ namespace module7assignment
                     if(movieFile.isUniqueTitle(movie.title)){
                         string input;
                         do{
-                        Console.WriteLine("Enter a genre for this movie");
+                        Console.WriteLine("Enter a genre for this movie or press enter if you are done");
                         input = Console.ReadLine();
-                        if (input!="done"&&input.Length>0){
+                        if (input!=""&&input.Length>3){
                             movie.genres.Add(input);
                         }
-                        } while(input!="done");
+                        } while(input!="");
                     }
                     if (movie.genres.Count==0){
                         movie.genres.Add("(no genres listed)");
@@ -55,7 +55,7 @@ namespace module7assignment
                     if(movie.director.Length<2){
                         movie.director = "unassigned";
                     }
-                    Console.WriteLine("Enter the movie's runtime");
+                    Console.WriteLine("Enter the movie's runtime (hours:minutes:seconds)");
                     try{
                         movie.runningTime = TimeSpan.Parse(Console.ReadLine());
                     }
@@ -63,6 +63,7 @@ namespace module7assignment
                         movie.runningTime = new TimeSpan(0);
                     }
                     movieFile.AddMovie(movie);
+                    
                 }
             } while (choice == "1" || choice == "2");
 

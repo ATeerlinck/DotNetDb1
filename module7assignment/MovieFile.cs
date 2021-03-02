@@ -24,50 +24,52 @@ namespace module7assignment
             try
             {
                 StreamReader sr = new StreamReader(filePath);
+                
                 while (!sr.EndOfStream)
                 {
-                    // create instance of Movie class
-                    Movie movie = new Movie();
+                    bool logged = false;
                     string line = sr.ReadLine();
-                    // first look for quote(") in string
-                    // this indicates a comma(,) in movie title
-                    int idx = line.IndexOf('"');
-                    if (idx == -1)
+                    string[] movie = line.Split(",");
+                    string nameBackup = movie[1];
+                    try {
+                        int n = Int32.Parse(movie[0]);
+                    }
+                    catch (Exception ex){
+                        logger.Error(ex.Message);
+                        logger.Warn("Not an Id. Probably a header or misinput");
+                        logged = true;
+                    }
+                    try
                     {
-                        // no quote = no comma in movie title
-                        // movie details are separated with comma(,)
-                        string[] movieDetails = line.Split(',');
-                        movie.mediaId = UInt64.Parse(movieDetails[0]);
-                        movie.title = movieDetails[1];
-                        movie.genres = movieDetails[2].Split('|').ToList();
-                        try{
-                            movie.director = movieDetails[3];
-                            movie.runningTime = TimeSpan.Parse(movieDetails[4]);
+                        if(movie.Length-4!=1){
+                            for(int i=2;i<movie.Length-2;i++){
+                                movie[1] += ","+movie[i];
+                            }
                         }
-                        catch (Exception ex){
-                            logger.Error(ex.Message);
-                            movie.director = "unassigned";
-                            movie.runningTime = new TimeSpan(0);
+                        if(line.IndexOf("\"")!=line.LastIndexOf("\"")){
+                            int start = movie[1].IndexOf("\"")+1;
+                            int end = movie[1].LastIndexOf("\"")-1;
+                            movie[1] = movie[1].Substring(start, end); 
                         }
                     }
-                    else
+                    catch
                     {
-                        // quote = comma in movie title
-                        // extract the mediaId
-                        movie.mediaId = UInt64.Parse(line.Substring(0, idx - 1));
-                        // remove mediaId and first quote from string
-                        line = line.Substring(idx + 1);
-                        // find the next quote
-                        idx = line.IndexOf('"');
-                        // extract the movieTitle
-                        movie.title = line.Substring(0, idx);
-                        // remove title and last comma from the string
-                        line = line.Substring(idx + 2);
-                        // replace the "|" with ", "
-                        movie.genres = line.Split('|').ToList();
-                        
+                    movie[1] = nameBackup;
                     }
-                    Movies.Add(movie);
+                    if(logged){}
+                    else{
+                        Movie mov = new Movie();
+                        int length = movie.Length;
+                        string[] genres = movie[length-3].Split("|");
+                        for(int i = 0; i<genres.Length; i++){
+                            mov.genres.Add(genres[i]);
+                        }
+                        mov.mediaId = UInt64.Parse(movie[0]);
+                        mov.title = movie[1];
+                        mov.director = movie[length-2];
+                        mov.runningTime = TimeSpan.Parse(movie[length-1]);
+                        Movies.Add(mov);
+                    }      
                 }
                 // close file when done
                 sr.Close();
