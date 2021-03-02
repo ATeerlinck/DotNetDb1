@@ -34,7 +34,35 @@ namespace module7assignment
                     }
                 }
                 else if (choice == "2"){
-                    
+                    Movie movie = new Movie();
+                    Console.WriteLine("Enter a movie name and year (Name (year)).");
+                    movie.title = Console.ReadLine();
+                    if(movieFile.isUniqueTitle(movie.title)){
+                        string input;
+                        do{
+                        Console.WriteLine("Enter a genre for this movie");
+                        input = Console.ReadLine();
+                        if (input!="done"&&input.Length>0){
+                            movie.genres.Add(input);
+                        }
+                        } while(input!="done");
+                    }
+                    if (movie.genres.Count==0){
+                        movie.genres.Add("(no genres listed)");
+                    }
+                    Console.WriteLine("Enter the director");
+                    movie.director = Console.ReadLine();
+                    if(movie.director.Length<2){
+                        movie.director = "unassigned";
+                    }
+                    Console.WriteLine("Enter the movie's runtime");
+                    try{
+                        movie.runningTime = TimeSpan.Parse(Console.ReadLine());
+                    }
+                    catch{
+                        movie.runningTime = new TimeSpan(0);
+                    }
+                    movieFile.AddMovie(movie);
                 }
             } while (choice == "1" || choice == "2");
 
