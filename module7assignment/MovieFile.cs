@@ -39,16 +39,25 @@ namespace module7assignment
                         // no quote = no comma in movie title
                         // movie details are separated with comma(,)
                         string[] movieDetails = line.Split(',');
-                        movie.movieId = UInt64.Parse(movieDetails[0]);
+                        movie.mediaId = UInt64.Parse(movieDetails[0]);
                         movie.title = movieDetails[1];
                         movie.genres = movieDetails[2].Split('|').ToList();
+                        try{
+                            movie.director = movieDetails[3];
+                            movie.runningTime = TimeSpan.Parse(movieDetails[4]);
+                        }
+                        catch (Exception ex){
+                            logger.Error(ex.Message);
+                            movie.director = "unassigned";
+                            movie.runningTime = new TimeSpan(0);
+                        }
                     }
                     else
                     {
                         // quote = comma in movie title
-                        // extract the movieId
-                        movie.movieId = UInt64.Parse(line.Substring(0, idx - 1));
-                        // remove movieId and first quote from string
+                        // extract the mediaId
+                        movie.mediaId = UInt64.Parse(line.Substring(0, idx - 1));
+                        // remove mediaId and first quote from string
                         line = line.Substring(idx + 1);
                         // find the next quote
                         idx = line.IndexOf('"');
@@ -58,15 +67,7 @@ namespace module7assignment
                         line = line.Substring(idx + 2);
                         // replace the "|" with ", "
                         movie.genres = line.Split('|').ToList();
-                    }
-                    try{
-                        movie.director = movieDetails[3];
-                        movie.runningTime = Timespan.Parse(movieDetails[4]);
-                    }
-                    catch (Exception ex){
-                        logger.Error(ex.Message);
-                        movie.director = "unassigned";
-                        movie.runningTime = new TimeSpan(0);
+                        
                     }
                     Movies.Add(movie);
                 }
@@ -96,14 +97,14 @@ namespace module7assignment
             try
             {
                 // first generate movie id
-                movie.movieId = Movies.Max(m => m.movieId) + 1;
+                movie.mediaId = Movies.Max(m => m.mediaId) + 1;
                 StreamWriter sw = new StreamWriter(filePath, true);
-                sw.WriteLine($"{movie.movieId},{movie.title},{string.Join("|", movie.genres)},{movie.director},{movie.runningTime}");
+                sw.WriteLine($"{movie.mediaId},{movie.title},{string.Join("|", movie.genres)},{movie.director},{movie.runningTime}");
                 sw.Close();
                 // add movie details to Lists
                 Movies.Add(movie);
                 // log transaction
-                logger.Info("Movie id {Id} added", movie.movieId);
+                logger.Info("Movie id {Id} added", movie.mediaId);
             } 
             catch(Exception ex)
             {
