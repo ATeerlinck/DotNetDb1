@@ -72,10 +72,10 @@ namespace module7assignment
                         movie.runningTime = details.Length > 2 ? TimeSpan.Parse(details[2]) : new TimeSpan(0);
                     }
                     sw.WriteLine($"{movie.mediaId},{movie.title},{genres},{movie.director},{movie.runningTime}");
-                    sw.Close();
-                    sr.Close();
-                    logger.Info("File scrub ended");
                 }
+                sw.Close();
+                sr.Close();
+                logger.Info("File scrub ended");
                 return writeFile;
             }
             catch (Exception ex)

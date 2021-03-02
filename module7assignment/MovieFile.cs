@@ -24,8 +24,6 @@ namespace module7assignment
             try
             {
                 StreamReader sr = new StreamReader(filePath);
-                // first line contains column headers
-                sr.ReadLine();
                 while (!sr.EndOfStream)
                 {
                     // create instance of Movie class
