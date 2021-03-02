@@ -23,7 +23,15 @@ namespace module7assignment
                 logger.Info("User choice: \""+choice+"\"");
 
                 if (choice == "1"){
-                    
+                    if (File.Exists(scrubbedFile)){
+                        movieFile = new MovieFile(scrubbedFile);
+                        foreach(Movie movie in movieFile.Movies){
+                                Console.WriteLine(movie);
+                            }
+                    }
+                    else{
+                        Console.WriteLine("File does not exist");
+                    }
                 }
                 else if (choice == "2"){
                     
