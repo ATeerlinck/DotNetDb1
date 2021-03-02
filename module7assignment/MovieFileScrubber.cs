@@ -21,6 +21,7 @@ namespace module7assignment
                     // file has already been scrubbed
                     logger.Info("File already scrubbed. Starting rescrub");
                 }
+                else{
                 // file has not been scrubbed
                 logger.Info("File scrub started");
                 // open write file
@@ -77,6 +78,7 @@ namespace module7assignment
                 sr.Close();
                 logger.Info("File scrub ended");
                 return writeFile;
+                }
             }
             catch (Exception ex)
             {
