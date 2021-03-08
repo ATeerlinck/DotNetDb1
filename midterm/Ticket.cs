@@ -48,10 +48,10 @@ namespace midterm
     public class Enhancement : Ticket{
         public double cost {get; set;}
         public string reason {get; set;}
-        public string estimate {get; set;}
+        public DateTime estimate {get; set;}
         public override string ToString(){
             string watcherList = watcherDisplay();
-            return $"TicketID :{ticketID}, Summary: {summary}, Status: {status}, Priority: {priority}, Submitter: {submitter}, Assigned: {assigned}, Watching: {watcherList}, Cost: {cost.ToString("C3",CultureInfo.CurrentCulture)}, Reason: {reason}, Estimate: {estimate}";
+            return $"TicketID :{ticketID}, Summary: {summary}, Status: {status}, Priority: {priority}, Submitter: {submitter}, Assigned: {assigned}, Watching: {watcherList}, Cost: {cost.ToString("C3",CultureInfo.CurrentCulture)}, Reason: {reason}, Estimate: {estimate:MMMM dd, yyyy}";
         }
     }
 
