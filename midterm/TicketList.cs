@@ -28,63 +28,75 @@ namespace midterm
 
         public static void CreateLists(string file1, string file2, string file3, List<Defect> defects, List<Enhancement> enhancements, List<Task> tasks){
                 try{
-                StreamReader sr = new StreamReader(file1);
-                while (!sr.EndOfStream)
-                {
-                    string line = sr.ReadLine();
-                    string[] ticket = line.Split(",");
-                    string[] watchers = ticket[6].Split("|");
-                    Defect newTicket = new Defect();
-                    newTicket.ticketID = Convert.ToInt32(ticket[0]);
-                    newTicket.summary = ticket[1];
-                    newTicket.status = ticket[2];
-                    newTicket.priority = ticket[3];
-                    newTicket.submitter = ticket[4];
-                    newTicket.assigned = ticket[5];
-                    newTicket.watchers = ticket[6].Split("|").ToList();
-                    newTicket.severity = ticket[7];
-                    defects.Add(newTicket);
+                if (File.Exists(file1)){    
+                    StreamReader sr = new StreamReader(file1);
+                    while (!sr.EndOfStream)
+                    {
+                        string line = sr.ReadLine();
+                        string[] ticket = line.Split(",");
+                        Defect newTicket = new Defect();
+                        newTicket.ticketID = Convert.ToInt32(ticket[0]);
+                        newTicket.summary = ticket[1];
+                        newTicket.status = ticket[2];
+                        newTicket.priority = ticket[3];
+                        newTicket.submitter = ticket[4];
+                        newTicket.assigned = ticket[5];
+                        newTicket.watchers = ticket[6].Split("|").ToList();
+                        newTicket.severity = ticket[7];
+                        defects.Add(newTicket);
+                    }
+                    sr.Close();
                 }
-                sr.Close();
-                sr = new StreamReader(file2);
-                while (!sr.EndOfStream)
-                {
-                    string line = sr.ReadLine();
-                    string[] ticket = line.Split(",");
-                    string[] watchers = ticket[6].Split("|");
-                    Enhancement newTicket = new Enhancement();
-                    newTicket.ticketID = Convert.ToInt32(ticket[0]);
-                    newTicket.summary = ticket[1];
-                    newTicket.status = ticket[2];
-                    newTicket.priority = ticket[3];
-                    newTicket.submitter = ticket[4];
-                    newTicket.assigned = ticket[5];
-                    newTicket.watchers = ticket[6].Split("|").ToList();
-                    newTicket.cost = Double.Parse(ticket[7]);
-                    newTicket.reason = ticket[8];
-                    newTicket.estimate = DateTime.Parse(ticket[9]);
-                    enhancements.Add(newTicket);
+                else{
+                    Console.WriteLine($"File \"{file1}\" does not exist");
                 }
-                sr.Close();
-                sr = new StreamReader(file3);
-                while (!sr.EndOfStream)
-                {
-                    string line = sr.ReadLine();
-                    string[] ticket = line.Split(",");
-                    string[] watchers = ticket[6].Split("|");
-                    Task newTicket = new Task();
-                    newTicket.ticketID = Convert.ToInt32(ticket[0]);
-                    newTicket.summary = ticket[1];
-                    newTicket.status = ticket[2];
-                    newTicket.priority = ticket[3];
-                    newTicket.submitter = ticket[4];
-                    newTicket.assigned = ticket[5];
-                    newTicket.watchers = ticket[6].Split("|").ToList();
-                    newTicket.projectName = ticket[7];
-                    newTicket.dueDate = DateTime.Parse(ticket[8]);
-                    tasks.Add(newTicket);
+                if (File.Exists(file2)){
+                    StreamReader sr = new StreamReader(file2);
+                    while (!sr.EndOfStream)
+                    {
+                        string line = sr.ReadLine();
+                        string[] ticket = line.Split(",");
+                        Enhancement newTicket = new Enhancement();
+                        newTicket.ticketID = Convert.ToInt32(ticket[0]);
+                        newTicket.summary = ticket[1];
+                        newTicket.status = ticket[2];
+                        newTicket.priority = ticket[3];
+                        newTicket.submitter = ticket[4];
+                        newTicket.assigned = ticket[5];
+                        newTicket.watchers = ticket[6].Split("|").ToList();
+                        newTicket.cost = Double.Parse(ticket[7]);
+                        newTicket.reason = ticket[8];
+                        newTicket.estimate = DateTime.Parse(ticket[9]);
+                        enhancements.Add(newTicket);
+                    }
+                    sr.Close();
                 }
-                sr.Close();
+                else{
+                    Console.WriteLine($"File \"{file2}\" does not exist");
+                }
+                if (File.Exists(file3)){
+                    StreamReader sr = new StreamReader(file3);
+                    while (!sr.EndOfStream)
+                    {
+                        string line = sr.ReadLine();
+                        string[] ticket = line.Split(",");
+                        Task newTicket = new Task();
+                        newTicket.ticketID = Convert.ToInt32(ticket[0]);
+                        newTicket.summary = ticket[1];
+                        newTicket.status = ticket[2];
+                        newTicket.priority = ticket[3];
+                        newTicket.submitter = ticket[4];
+                        newTicket.assigned = ticket[5];
+                        newTicket.watchers = ticket[6].Split("|").ToList();
+                        newTicket.projectName = ticket[7];
+                        newTicket.dueDate = DateTime.Parse(ticket[8]);
+                        tasks.Add(newTicket);
+                    }
+                    sr.Close();
+                }
+                else{
+                    Console.WriteLine($"File \"{file3}\" does not exist");
+                }
             }
             catch (Exception e){
                 logger.Error(e.Message);
