@@ -17,19 +17,50 @@ namespace midterm
             watchers = new List<string>();
         }
 
+        private string watcherDisplay(){
+            string watcherList = "";
+            for(int i = 0; i<watchers.Count; i++){
+                watcherList += watchers[i];
+                if(watchers.Count >2 && i!=watchers.Count-1){
+                    watcherList += ", ";
+                }
+                if(i==watchers.Count-2){
+                    watcherList += "and ";
+                }
+            }
+            return watcherList;
+        };
+
         public override string ToString()
         {
-                            string watcherList = "";
-                            for(int i = 0; i<watchers.Count; i++){
-                                watcherList += watchers[i];
-                                if(watchers.Count >2 && i!=watchers.Count-1){
-                                    watcherList += ", ";
-                                }
-                                if(i==watchers.Count-2){
-                                    watcherList += "and ";
-                                }
-                            }
+            string watcherList = watcherDisplay();
             return $"TicketID :{ticketID}, Summary: {summary}, Status: {status}, Priority: {priority}, Submitter: {submitter}, Assigned: {assigned}, Watching: {watcherList}";
+        }
+    }
+    public class Defect : Ticket{
+        public string severity {get; set;}
+        public override string ToString(){
+            string watcherList = watcherDisplay();
+            return $"TicketID :{ticketID}, Summary: {summary}, Status: {status}, Priority: {priority}, Submitter: {submitter}, Assigned: {assigned}, Watching: {watcherList}, Severity: {severity}";
+        }
+    }
+
+    public class Enhancement : Ticket{
+        public double cost {get; set;}
+        public string reason {get; set;}
+        public string estimate {get; set;}
+        public override string ToString(){
+            string watcherList = watcherDisplay();
+            return $"TicketID :{ticketID}, Summary: {summary}, Status: {status}, Priority: {priority}, Submitter: {submitter}, Assigned: {assigned}, Watching: {watcherList}, Cost: {cost.ToString("C3",CultureInfo.CurrentCulture)}, Reason: {reason}, Estimate: {estimate}";
+        }
+    }
+
+    public class Task : Ticket{
+        public string projectName {get; set;}
+        public DateTime dueDate {get; set;}
+        public override string ToString(){
+            string watcherList = watcherDisplay();
+            return $"TicketID :{ticketID}, Summary: {summary}, Status: {status}, Priority: {priority}, Submitter: {submitter}, Assigned: {assigned}, Watching: {watcherList}, Project Name: {projectName}, Date Due: {dueDate:MMMM dd, yyyy}";
         }
     }
 }
