@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using System.Globalization;
 
 namespace midterm
 {    
@@ -17,7 +18,7 @@ namespace midterm
             watchers = new List<string>();
         }
 
-        private string watcherDisplay(){
+        public string watcherDisplay(){
             string watcherList = "";
             for(int i = 0; i<watchers.Count; i++){
                 watcherList += watchers[i];
@@ -29,7 +30,7 @@ namespace midterm
                 }
             }
             return watcherList;
-        };
+        }
 
         public override string ToString()
         {

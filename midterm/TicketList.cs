@@ -4,7 +4,6 @@ using System.IO;
 using System;
 using NLog.Web;
 using System.Globalization;
-using System.Threading;
 namespace midterm
 {
     public class TicketList
@@ -13,8 +12,8 @@ namespace midterm
         public string file2 {get; set;}
         public string file3 {get; set;}
         public List<Defect> defects {get; set;}
-        public List<enhancements> enhancements {get; set;}
-        public List<tasks> tasks {get; set;}
+        public List<Enhancement> enhancements {get; set;}
+        public List<Task> tasks {get; set;}
         public static NLog.Logger logger = NLog.Web.NLogBuilder.ConfigureNLog(Directory.GetCurrentDirectory() + "\\nlog.config").GetCurrentClassLogger();
 
         public TicketList(string File1, string File2, string File3){
@@ -24,10 +23,10 @@ namespace midterm
             defects = new List<Defect>();
             enhancements = new List<Enhancement>();
             tasks = new List<Task>();
-            CreateLists(file1);
+            CreateLists(file1, file2, file3, defects, enhancements, tasks);
         }
 
-        public static void CreateLists(string file1, string file2, string file3){
+        public static void CreateLists(string file1, string file2, string file3, List<Defect> defects, List<Enhancement> enhancements, List<Task> tasks){
                 try{
                 StreamReader sr = new StreamReader(file1);
                 while (!sr.EndOfStream)
@@ -47,7 +46,7 @@ namespace midterm
                     defects.Add(newTicket);
                 }
                 sr.Close();
-                StreamReader sr = new StreamReader(file2);
+                sr = new StreamReader(file2);
                 while (!sr.EndOfStream)
                 {
                     string line = sr.ReadLine();
@@ -63,11 +62,11 @@ namespace midterm
                     newTicket.watchers = ticket[6].Split("|").ToList();
                     newTicket.cost = Double.Parse(ticket[7]);
                     newTicket.reason = ticket[8];
-                    newTicket.estimate = ticket[9];
+                    newTicket.estimate = DateTime.Parse(ticket[9]);
                     enhancements.Add(newTicket);
                 }
                 sr.Close();
-                StreamReader sr = new StreamReader(file3);
+                sr = new StreamReader(file3);
                 while (!sr.EndOfStream)
                 {
                     string line = sr.ReadLine();
@@ -82,7 +81,7 @@ namespace midterm
                     newTicket.assigned = ticket[5];
                     newTicket.watchers = ticket[6].Split("|").ToList();
                     newTicket.projectName = ticket[7];
-                    newTicket.estimate = DateTime.Parse(ticket[8]);
+                    newTicket.dueDate = DateTime.Parse(ticket[8]);
                     tasks.Add(newTicket);
                 }
                 sr.Close();
@@ -137,7 +136,7 @@ namespace midterm
                     DateTime dueDate = DateTime.Parse(Console.ReadLine(), CultureInfo.CurrentCulture);
                     sw.Write("\n{0},{1},{2},{3},{4},{5},{6},{7},{8}", ticketID, summary, status, priority, submitter, assigned, string.Join("|",watchers), projectName, dueDate);
                 }
-                Console.WriteLine($"Enter a new {type} (Y/N)?");
+                Console.WriteLine($"Enter a new {type} ticket (Y/N)?");
                 string answer = Console.ReadLine().ToUpper();
                 if (answer != "Y") { break; }
             }
