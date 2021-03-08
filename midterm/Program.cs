@@ -24,6 +24,7 @@ namespace midterm
                     string answer;
                     do
                     {
+                        TicketList.CreateLists(file1, file2, file3, list.defects, list.enhancements, list.tasks);
                         Console.WriteLine("What ticket type would you like to see?\n1. Defect\n2. Enhancement\n3. Task\n4. All");
                         answer = Console.ReadLine();
                         if(answer == "1"){
@@ -105,8 +106,24 @@ namespace midterm
                 }
                 else if (choice == "2")
                 {
+                    string answer;
                     do{
-
+                        Console.WriteLine("What ticket type would you like to see?\n1. Defect\n2. Enhancement\n3. Task\n4. All");
+                        answer = Console.ReadLine();
+                        if(answer == "1"){
+                            TicketList.CreateTicket(file1, "defect");
+                        }
+                        else if(answer == "2"){
+                            TicketList.CreateTicket(file2, "enhancement");
+                        }
+                        else if(answer == "3"){
+                            TicketList.CreateTicket(file3, "task");
+                        }
+                        else{
+                            Console.WriteLine("You didn't select an option");
+                        }
+                        Console.WriteLine("Would you like to create a ticket of another type? (Y/N)");
+                        answer = Console.ReadLine().ToUpper();
                     } while(answer == "Y");
                 }
             } while (choice == "1" || choice == "2");
