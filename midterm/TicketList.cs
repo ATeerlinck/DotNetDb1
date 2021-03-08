@@ -23,11 +23,14 @@ namespace midterm
             defects = new List<Defect>();
             enhancements = new List<Enhancement>();
             tasks = new List<Task>();
-            CreateLists(file1, file2, file3, defects, enhancements, tasks);
+            CreateDefectList(file1, defects);
+            CreateEnhancementList(file2, enhancements);
+            CreateTaskList(file3, tasks);
         }
 
-        public static void CreateLists(string file1, string file2, string file3, List<Defect> defects, List<Enhancement> enhancements, List<Task> tasks){
-                try{
+        public static List<Defect> CreateDefectList(string file1, List<Defect> defects){
+            defects = new List<Defect>();
+            try{
                 if (File.Exists(file1)){    
                     StreamReader sr = new StreamReader(file1);
                     while (!sr.EndOfStream)
@@ -46,10 +49,16 @@ namespace midterm
                         defects.Add(newTicket);
                     }
                     sr.Close();
-                }
-                else{
-                    Console.WriteLine($"File \"{file1}\" does not exist");
-                }
+                }  
+            }
+            catch (Exception e){
+                logger.Error(e.Message);
+            }
+            return defects;
+        }
+        public static List<Enhancement> CreateEnhancementList(string file2, List<Enhancement> enhancements){
+            enhancements = new List<Enhancement>();
+            try{    
                 if (File.Exists(file2)){
                     StreamReader sr = new StreamReader(file2);
                     while (!sr.EndOfStream)
@@ -71,9 +80,15 @@ namespace midterm
                     }
                     sr.Close();
                 }
-                else{
-                    Console.WriteLine($"File \"{file2}\" does not exist");
-                }
+            }
+            catch (Exception e){
+                logger.Error(e.Message);
+            }
+            return enhancements;
+        }
+        public static List<Task> CreateTaskList(string file3,  List<Task> tasks){
+            tasks = new List<Task>();
+            try{    
                 if (File.Exists(file3)){
                     StreamReader sr = new StreamReader(file3);
                     while (!sr.EndOfStream)
@@ -94,13 +109,11 @@ namespace midterm
                     }
                     sr.Close();
                 }
-                else{
-                    Console.WriteLine($"File \"{file3}\" does not exist");
-                }
             }
             catch (Exception e){
                 logger.Error(e.Message);
             }
+            return tasks;
         }
         public static void CreateTicket(string file, string type){
             StreamWriter sw = new StreamWriter(file, true);

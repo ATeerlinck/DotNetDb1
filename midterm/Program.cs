@@ -7,9 +7,9 @@ namespace midterm
     {
         static void Main(string[] args)
         {   
-            string file1 = "Tickets.csv";
-            string file2 = "Enhancements.csv";
-            string file3 = "Task.csv";
+            string file1 = "tickets.csv";
+            string file2 = "enhancements.csv";
+            string file3 = "task.csv";
             string choice;
             TicketList list = new TicketList(file1, file2, file3);
             do
@@ -24,7 +24,9 @@ namespace midterm
                     string answer;
                     do
                     {
-                        TicketList.CreateLists(file1, file2, file3, list.defects, list.enhancements, list.tasks);
+                        list.defects = TicketList.CreateDefectList(file1, list.defects);
+                        list.enhancements = TicketList.CreateEnhancementList(file2, list.enhancements);
+                        list.tasks = TicketList.CreateTaskList(file3, list.tasks);
                         Console.WriteLine("What ticket type would you like to see?\n1. Defect\n2. Enhancement\n3. Task\n4. All");
                         answer = Console.ReadLine();
                         if(answer == "1"){
