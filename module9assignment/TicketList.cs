@@ -23,9 +23,9 @@ namespace module9assignment
             defects = new List<Defect>();
             enhancements = new List<Enhancement>();
             tasks = new List<Task>();
-            CreateDefectList(file1, defects);
-            CreateEnhancementList(file2, enhancements);
-            CreateTaskList(file3, tasks);
+            defects = CreateDefectList(file1, defects);
+            enhancements = CreateEnhancementList(file2, enhancements);
+            tasks = CreateTaskList(file3, tasks);
         }
 
         public static List<Defect> CreateDefectList(string file1, List<Defect> defects){

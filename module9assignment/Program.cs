@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 namespace module9assignment
 {
     class Program
@@ -131,8 +132,96 @@ namespace module9assignment
                 }
                 else if(choice =="3"){
                     Console.WriteLine("What do you want to search by?\n  1)Status\n  2)Priority\n  3)Submitter\n");
+                    string answer = Console.ReadLine();
+                    if(answer == "1"){
+                        Console.WriteLine("Enter what status you want to look for:");
+                        string search = Console.ReadLine();
+                        var defects = list.defects.Where(t => t.status.Contains(search));
+                        var enhancements = list.enhancements.Where(t => t.status.Contains(search));
+                        var tasks = list.tasks.Where(t => t.status.Contains(search));
+                        var count = defects.Count()+enhancements.Count()+tasks.Count();
+
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.Write($"There are ");
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write(count);
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.Write(" tickets with a ");
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write(search);
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.Write(" status.\n");
+                        foreach(var d in defects){
+                            Console.WriteLine($"  {d}");
+                        }
+                        foreach(var e in enhancements){
+                            Console.WriteLine($"  {e}");
+                        }
+                        foreach(var t in tasks){
+                            Console.WriteLine($"  {t}");
+                        }
+                        Console.ResetColor();
+                    }
+                    if(answer == "2"){
+                        Console.WriteLine("Enter what priority you want to look for:");
+                        string search = Console.ReadLine();
+                        var defects = list.defects.Where(t => t.priority.Contains(search));
+                        var enhancements = list.enhancements.Where(t => t.priority.Contains(search));
+                        var tasks = list.tasks.Where(t => t.priority.Contains(search));
+                        var count = defects.Count()+enhancements.Count()+tasks.Count();
+
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.Write($"There are ");
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write(count);
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.Write(" tickets with a ");
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write(search);
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.Write(" priority.\n");
+                        foreach(var d in defects){
+                            Console.WriteLine($"  {d}");
+                        }
+                        foreach(var e in enhancements){
+                            Console.WriteLine($"  {e}");
+                        }
+                        foreach(var t in tasks){
+                            Console.WriteLine($"  {t}");
+                        }
+                        Console.ResetColor();
+                    }
+                    if(answer == "3"){
+                        Console.WriteLine("Enter what submitter you want to look for:");
+                        string search = Console.ReadLine();
+                        var defects = list.defects.Where(t => t.submitter.Contains(search));
+                        var enhancements = list.enhancements.Where(t => t.submitter.Contains(search));
+                        var tasks = list.tasks.Where(t => t.submitter.Contains(search));
+                        var count = defects.Count()+enhancements.Count()+tasks.Count();
+
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.Write($"There are ");
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write(count);
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.Write(" tickets submitted by ");
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write(search);
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.Write(".\n");
+                        foreach(var d in defects){
+                            Console.WriteLine($"  {d}");
+                        }
+                        foreach(var e in enhancements){
+                            Console.WriteLine($"  {e}");
+                        }
+                        foreach(var t in tasks){
+                            Console.WriteLine($"  {t}");
+                        }
+                        Console.ResetColor();
+                    }
                 }
-            } while (choice == "1" || choice == "2");
+            } while (choice == "1" || choice == "2"|| choice == "3");
         }
     }
 }
