@@ -4,9 +4,9 @@ using System.IO;
 using System;
 using NLog.Web;
 using System.Globalization;
-namespace midterm
+namespace module9assignment
 {
-    public class module9assignment
+    public class TicketList
     {
         public string file1 {get; set;}
         public string file2 {get; set;}

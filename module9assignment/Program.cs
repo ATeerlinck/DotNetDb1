@@ -16,6 +16,7 @@ namespace module9assignment
             {
                 Console.WriteLine("1) Read data from file.");
                 Console.WriteLine("2) Create file from data.");
+                Console.WriteLine("3) Search tickets.");
                 Console.WriteLine("Enter any other key to exit.");
                 choice = Console.ReadLine();
 
@@ -110,7 +111,7 @@ namespace module9assignment
                 {
                     string answer;
                     do{
-                        Console.WriteLine("What ticket type would you like to see?\n1. Defect\n2. Enhancement\n3. Task\n4. All");
+                        Console.WriteLine("What ticket type would you like to see?\n1. Defect\n2. Enhancement\n3. Task\n");
                         answer = Console.ReadLine();
                         if(answer == "1"){
                             TicketList.CreateTicket(file1, "defect");
@@ -127,6 +128,9 @@ namespace module9assignment
                         Console.WriteLine("Would you like to create a ticket of another type? (Y/N)");
                         answer = Console.ReadLine().ToUpper();
                     } while(answer == "Y");
+                }
+                else if(choice =="3"){
+                    Console.WriteLine("What do you want to search by?\n  1)Status\n  2)Priority\n  3)Submitter\n");
                 }
             } while (choice == "1" || choice == "2");
         }
