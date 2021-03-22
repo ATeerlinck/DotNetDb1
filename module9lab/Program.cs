@@ -67,7 +67,7 @@ namespace module9lab
                     
                 }
                 else if(choice == "3"){
-                    Console.WriteLine("What do you want to search by?\n 1)Name\n 2)Date\n 3)Genre");
+                    Console.WriteLine("What do you want to search by?\n  1)Name\n  2)Year\n  3)Genre\n");
                     string answer = Console.ReadLine();
                     Console.WriteLine("Enter your search term:");
                     string search = Console.ReadLine();
@@ -80,7 +80,11 @@ namespace module9lab
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                         Console.Write(count);
                         Console.ForegroundColor = ConsoleColor.DarkGreen;
-                        Console.Write($" movies with \"{search}\" in their title.\n");
+                        Console.Write(" movies with ");
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write(search);
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.Write(" in their title.\n");
                         //movie list display
                         foreach(var t in Movies){
                             Console.WriteLine($"  {t.title}");
@@ -88,10 +92,44 @@ namespace module9lab
                         Console.ResetColor();
                     }
                     else if(answer == "2"){
-
+                        var Movies = movieFile.Movies.Where(m => m.title.Contains(search));
+                        var count = movieFile.Movies.Where(m => m.title.Contains(search)).Count();
+                        //count display
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.Write($"There are ");
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write(count);
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.Write(" movies from ");
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write(search);
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.WriteLine(".");
+                        //movie list display
+                        foreach(var t in Movies){
+                            Console.WriteLine($"  {t.title}");
+                        }
+                        Console.ResetColor();
                     }
                     else if(answer == "3"){
-
+                        var Movies = movieFile.Movies.Where(m => m.genres.Contains(search));
+                        var count = movieFile.Movies.Where(m => m.genres.Contains(search)).Count();
+                        //count display
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.Write($"There are ");
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write(count);
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.Write(" movies in the ");
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write(search);
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.Write(" genre.\n");
+                        //movie list display
+                        foreach(var t in Movies){
+                            Console.WriteLine($"  {t.title}");
+                        }
+                        Console.ResetColor();
                     }
                 }
             } while (choice == "1" || choice == "2"|| choice == "3");
