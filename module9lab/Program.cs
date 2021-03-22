@@ -1,7 +1,7 @@
 ﻿using System;
 using NLog.Web;
 using System.IO;
-
+using System.Linq;
 namespace module7assignment
 {
     class Program
@@ -18,6 +18,7 @@ namespace module7assignment
             do{
                 Console.WriteLine("1) List movies");
                 Console.WriteLine("2) Add a movie");
+                Console.WriteLine("3) Search movies");
                 Console.WriteLine("Enter any other key to exit.");
                 choice = Console.ReadLine();
                 logger.Info("User choice: \""+choice+"\"");
@@ -64,6 +65,27 @@ namespace module7assignment
                     }
                     movieFile.AddMovie(movie);
                     
+                }
+                else if(choice == "3"){
+                    Console.WriteLine("What do you want to search by?\n 1)Name\n 2)Date\n 3)Genre");
+                    string answer = Console.ReadLine();
+                    Console.WriteLine("Enter your search term:");
+                    string search = Console.ReadLine();
+                    if(answer == "1"){
+                        var Movies = movieFile.Movies.Where(m => m.title.Contains(search)).Select(m => m.title);
+                        var count = movieFile.Movies.Where(m => m.title.Contains(search)).Count();
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        foreach(string t in Movies){
+                            Console.WriteLine($"There are {Console.ForegroundColor = ConsoleColor.DarkYellow}{count}{Console.ForegroundColor = ConsoleColor.DarkGreen} movies with your term {search}");
+                        }
+                        Console.ResetColor();
+                    }
+                    else if(answer == "2"){
+
+                    }
+                    else if(answer == "3"){
+
+                    }
                 }
             } while (choice == "1" || choice == "2");
 
