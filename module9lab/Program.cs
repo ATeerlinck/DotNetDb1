@@ -2,7 +2,7 @@
 using NLog.Web;
 using System.IO;
 using System.Linq;
-namespace module7assignment
+namespace module9lab
 {
     class Program
     {
@@ -72,11 +72,18 @@ namespace module7assignment
                     Console.WriteLine("Enter your search term:");
                     string search = Console.ReadLine();
                     if(answer == "1"){
-                        var Movies = movieFile.Movies.Where(m => m.title.Contains(search)).Select(m => m.title);
+                        var Movies = movieFile.Movies.Where(m => m.title.Contains(search));
                         var count = movieFile.Movies.Where(m => m.title.Contains(search)).Count();
+                        //count display
                         Console.ForegroundColor = ConsoleColor.DarkGreen;
-                        foreach(string t in Movies){
-                            Console.WriteLine($"There are {Console.ForegroundColor = ConsoleColor.DarkYellow}{count}{Console.ForegroundColor = ConsoleColor.DarkGreen} movies with your term {search}");
+                        Console.Write($"There are ");
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write(count);
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.Write($" movies with \"{search}\" in their title.\n");
+                        //movie list display
+                        foreach(var t in Movies){
+                            Console.WriteLine($"  {t.title}");
                         }
                         Console.ResetColor();
                     }
@@ -87,7 +94,7 @@ namespace module7assignment
 
                     }
                 }
-            } while (choice == "1" || choice == "2");
+            } while (choice == "1" || choice == "2"|| choice == "3");
 
             logger.Info("Program ended");
         }

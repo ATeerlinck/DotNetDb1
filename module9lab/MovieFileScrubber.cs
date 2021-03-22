@@ -20,12 +20,13 @@ namespace module9lab
                 {
                     // file has already been scrubbed
                     logger.Info("File already scrubbed. Starting rescrub");
+                    File.Delete(Directory.GetCurrentDirectory() + "\\"+writeFile);
                 }
-                else{
+
                 // file has not been scrubbed
                 logger.Info("File scrub started");
                 // open write file
-                StreamWriter sw = new StreamWriter(writeFile);
+                StreamWriter sw = new StreamWriter(writeFile, false);
                 // open read file
                 StreamReader sr = new StreamReader(readFile);
                 // remove first line - column headers
@@ -78,7 +79,6 @@ namespace module9lab
                 sr.Close();
                 logger.Info("File scrub ended");
                 return writeFile;
-                }
             }
             catch (Exception ex)
             {
