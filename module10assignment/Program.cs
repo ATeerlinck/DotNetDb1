@@ -97,8 +97,11 @@ namespace module10assignment
                         var posts = db.Posts.Where(b => b.BlogId.Equals(blog.BlogId));
                         foreach (var item in posts)
                         {
+                            Console.Write("\nTitle: ");
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
-                            Console.Write("\n"+item.Title+": ");
+                            Console.WriteLine(item.Title+": ");
+                            Console.ResetColor();
+                            Console.Write("Content: ");
                             Console.ForegroundColor = ConsoleColor.DarkGreen;
                             Console.WriteLine(item.Content);
                             Console.ResetColor();
