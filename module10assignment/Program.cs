@@ -97,14 +97,18 @@ namespace module10assignment
                         var posts = db.Posts.Where(b => b.BlogId.Equals(blog.BlogId));
                         foreach (var item in posts)
                         {
-
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
                             Console.Write("\n"+item.Title+": ");
                             Console.ForegroundColor = ConsoleColor.DarkGreen;
-                            Console.WriteLine(item.Content+"\n");
+                            Console.WriteLine(item.Content);
                             Console.ResetColor();
+                            Console.Write("This post was found within the ");
+                            Console.ForegroundColor = ConsoleColor.DarkCyan;
+                            Console.Write(blog.Name); //I personally think putting the blog name for each post instead of once at the end of the post is redundant. I will leave it here for now, but I do think this getting removed would be fantastic.
+                            Console.ResetColor();
+                            Console.WriteLine(" blog.\n");
                         }
-                        Console.WriteLine($"There were {count} posts in blog {blog.Name}");
+                        Console.WriteLine($"There were {count} posts in {blog.Name} blog");
                     }
                     catch (Exception ex)
                     {
