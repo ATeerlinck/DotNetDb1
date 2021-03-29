@@ -54,7 +54,35 @@ namespace module10assignment
                         logger.Error(ex.Message);
                     }
                 }
-            }while(choice != "1"||choice != "2"||choice != "3"||choice != "4");
+                if(choice == "3"){
+                    try{
+                        Console.Write("Please select a blog:\n");
+                        var db = new BloggingContext();
+                        var query = db.Blogs.OrderBy(b => b.Name);
+                        int count = 1;
+                        foreach (var item in query)
+                        {
+                            Console.WriteLine($"{count}) {item.Name}");
+                        }
+                        var array = query.ToArray();
+                        var blog = array[ Convert.ToInt32(Console.ReadLine())-1];
+                        Post post = new Post();
+                        post.BlogId = blog.BlogId;
+                        post.Blog = blog;
+                        Console.WriteLine("\nWhat is the title of the post?");
+                        post.Title = Console.ReadLine();
+                        Console.WriteLine("\nWhat is the content of the post?");
+                        post.Content = Console.ReadLine();
+                        db.AddPost(post);
+                        logger.Info("Post added - {0}", post.Title); 
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error(ex.Message);
+                    }
+                }
+                
+            }while(choice == "1"||choice == "2"||choice == "3"||choice == "4");
             logger.Info("Program ended");
         }
     }
