@@ -81,7 +81,36 @@ namespace module10assignment
                         logger.Error(ex.Message);
                     }
                 }
-                
+                if(choice == "4"){
+                    try
+                    {   
+                        var db = new BloggingContext();
+                        var query = db.Blogs.OrderBy(b => b.Name);
+                        int count = 1;
+                        Console.WriteLine("All blogs in the database:");
+                        foreach (var item in query)
+                        {
+                            Console.WriteLine($"{count}) {item.Name}");
+                        }
+                        var array = query.ToArray();
+                        var blog = array[ Convert.ToInt32(Console.ReadLine())-1];
+                        var posts = db.Posts.Where(b => b.BlogId.Equals(blog.BlogId));
+                        foreach (var item in posts)
+                        {
+
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            Console.Write("\n"+item.Title+": ");
+                            Console.ForegroundColor = ConsoleColor.DarkGreen;
+                            Console.WriteLine(item.Content+"\n");
+                            Console.ResetColor();
+                        }
+                        Console.WriteLine($"There were {count} posts in blog {blog.Name}");
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error(ex.Message);
+                    }
+                }
             }while(choice == "1"||choice == "2"||choice == "3"||choice == "4");
             logger.Info("Program ended");
         }
