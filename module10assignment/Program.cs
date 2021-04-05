@@ -63,6 +63,7 @@ namespace module10assignment
                         foreach (var item in query)
                         {
                             Console.WriteLine($"{count}) {item.Name}");
+                            count++;
                         }
                         var array = query.ToArray();
                         var blog = array[ Convert.ToInt32(Console.ReadLine())-1];
@@ -91,6 +92,7 @@ namespace module10assignment
                         foreach (var item in query)
                         {
                             Console.WriteLine($"{count}) {item.Name}");
+                            count++;
                         }
                         var array = query.ToArray();
                         var blog = array[ Convert.ToInt32(Console.ReadLine())-1];
@@ -111,7 +113,7 @@ namespace module10assignment
                             Console.ResetColor();
                             Console.WriteLine(" blog.\n");
                         }
-                        Console.WriteLine($"There were {count} posts in {blog.Name} blog");
+                        Console.WriteLine($"\nThere were {count} posts in {blog.Name} blog");
                     }
                     catch (Exception ex)
                     {
