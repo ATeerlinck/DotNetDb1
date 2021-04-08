@@ -65,7 +65,7 @@ namespace module10assignment
                             Console.WriteLine($"{count}) {item.Name}");
                             count++;
                         }
-                        var array = query.ToArray();
+                        var array = query.ToArray();   
                         var blog = array[ Convert.ToInt32(Console.ReadLine())-1];
                         Post post = new Post();
                         post.BlogId = blog.BlogId;
@@ -101,7 +101,7 @@ namespace module10assignment
                         {
                             Console.Write("\nTitle: ");
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
-                            Console.WriteLine(item.Title+": ");
+                            Console.WriteLine(item.Title);
                             Console.ResetColor();
                             Console.Write("Content: ");
                             Console.ForegroundColor = ConsoleColor.DarkGreen;
