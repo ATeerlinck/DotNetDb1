@@ -76,7 +76,7 @@ namespace Final
                             {
                                 logger.Info("Validation passed");
                                 db.AddCategory(category);
-                                logger.Info($"{category.CategoryName} category added. ID of {category.CategoryId}.");
+                                logger.Info($"{category.CategoryName} category added. Id of {category.CategoryId}.");
                             }
                         }
                         if (!isValid)
@@ -143,6 +143,7 @@ namespace Final
                             Console.WriteLine("WARNING! You are about to remove a category that has products still in it. If you are going to make a new category or categories for the products in this one, make those categories now and move the products. ");
                             Console.WriteLine("Would you like to: \n1) Orphan the products \n2) Remove the products \n3) Not remove this category");
                             int ans = int.Parse(Console.ReadLine());
+                            logger.Info($"Option {ans} selected");
                             if(ans == 1){
                                 Console.WriteLine("Last chance to turn back. Are you sure about orphaning the related products and removing this category? y/n");
                                 string last = Console.ReadLine();
@@ -174,7 +175,7 @@ namespace Final
                         Products product = new Products();
                         Console.WriteLine("Enter product Name:");
                         product.ProductName = Console.ReadLine();
-                        Console.WriteLine("Enter the Supplier ID:");
+                        Console.WriteLine("Enter the Supplier Id:");
                         //display suppliers
                         Console.ForegroundColor = ConsoleColor.DarkBlue;
                         var suppliers = db.Suppliers.OrderBy(s => s.SupplierId);
@@ -188,10 +189,10 @@ namespace Final
                             if(supplier != null){
                                 product.SupplierId = supplier.SupplierId;
                                 product.Supplier = supplier;
-                                logger.Info($"SupplierID# {product.SupplierId} found.");
+                                logger.Info($"SupplierId# {product.SupplierId} found.");
                             }
                             else{
-                                logger.Error("Invalid Supplier ID. Supplier set to null");
+                                logger.Error("Invalid Supplier Id. Supplier set to null");
                                 product.SupplierId = null;
                                 product.Supplier = null;
                             }
@@ -212,10 +213,10 @@ namespace Final
                         if(category != null){
                                 product.CategoryId = category.CategoryId;
                                 product.Category = category;
-                                logger.Info($"CategoryID# {product.CategoryId} found.");
+                                logger.Info($"CategoryId# {product.CategoryId} found.");
                             }
                             else{
-                                logger.Error("Invalid Category ID. Category set to null");
+                                logger.Error("Invalid Category Id. Category set to null");
                                 product.CategoryId = null;
                                 product.Category = null;
                             }
@@ -251,7 +252,7 @@ namespace Final
                             {
                                 logger.Info("Validation passed");
                                 db.AddProduct(product);
-                                logger.Info($"{product.ProductName} product added. ID of {product.ProductId}.");
+                                logger.Info($"{product.ProductName} product added. Id of {product.ProductId}.");
                             }
                         }
                         if (!isValid)
@@ -263,7 +264,24 @@ namespace Final
                         }
                     }
                     else if(choice == "7"){
-                        //add deletion of product
+                        Console.WriteLine("Select the product you want to remove");
+                        var db = new Northwind_DotNetDb_ABTContext();
+                        var query = db.Products.OrderBy(p => p.ProductId);
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        foreach (var item in query)
+                        {
+                            Console.WriteLine($"{item.ProductId}) {item.ProductName}");
+                        }
+                        Console.ForegroundColor = ConsoleColor.White;
+                        int id = int.Parse(Console.ReadLine());
+                        Console.Clear();
+                        logger.Info($"ProductId {id} selected");
+                        Products product = db.Products.FirstOrDefault(c => c.ProductId == id);
+                        Console.WriteLine($"Are you sure you want to remove {product.ProductName}? y/n");
+                        if(Console.ReadLine().ToLower()=="y"){
+                            logger.Info($"ProductId {id} removed");
+                            db.DeleteProduct(product);
+                        }
                     }
                     else if(choice == "8"){
                         //selector
@@ -271,6 +289,7 @@ namespace Final
                         Console.WriteLine("2) Display active");
                         Console.WriteLine("3) Display discontinued");
                         choice = Console.ReadLine();
+                        logger.Info($"Option {choice} selected");
                         //executor
                         var db = new Northwind_DotNetDb_ABTContext();
                         var query = db.Products.OrderBy(p => p.ProductName);
@@ -296,7 +315,30 @@ namespace Final
                         Console.ForegroundColor = ConsoleColor.White;
                     }
                     else if(choice == "9"){
-                        
+                        Console.WriteLine("Select the product you want to see all details of");
+                        var db = new Northwind_DotNetDb_ABTContext();
+                        var query = db.Products.OrderBy(p => p.ProductId);
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        foreach (var item in query)
+                        {
+                            Console.WriteLine($"{item.ProductId}) {item.ProductName}");
+                        }
+                        Console.ForegroundColor = ConsoleColor.White;
+                        int id = int.Parse(Console.ReadLine());
+                        Console.Clear();
+                        logger.Info($"ProductId {id} selected");
+                        Products product = db.Products.FirstOrDefault(c => c.ProductId == id);
+                        Console.ForegroundColor = ConsoleColor.DarkCyan;
+                        Console.WriteLine($"Name: {product.ProductName}");
+                        Console.WriteLine($"Id: {product.ProductId}");
+                        Console.WriteLine($"SupplierId: {product.SupplierId}");
+                        Console.WriteLine($"CategoryId: {product.CategoryId}");
+                        Console.WriteLine($"Unit Price: ${product.UnitPrice}");
+                        Console.WriteLine($"Units In Stock: {product.UnitsInStock}");
+                        Console.WriteLine($"Units On Order: {product.UnitsOnOrder}");
+                        Console.WriteLine($"Reorder Level: {product.ReorderLevel}");
+                        Console.WriteLine($"Discontinued: {product.Discontinued}");
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     Console.WriteLine();
 
