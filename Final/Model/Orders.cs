@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NorthwindConsole.Model
+namespace Final.Model
 {
     public partial class Orders
     {

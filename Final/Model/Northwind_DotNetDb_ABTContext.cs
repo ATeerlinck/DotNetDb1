@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
-namespace NorthwindConsole.Model
+namespace Final.Model
 {
     public partial class Northwind_DotNetDb_ABTContext : DbContext
     {

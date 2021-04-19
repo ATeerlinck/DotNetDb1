@@ -69,7 +69,8 @@ namespace Final
                             else
                             {
                                 logger.Info("Validation passed");
-                                // TODO: save category to db
+                                db.Categories.Add(category);
+                                logger.Info($"{category.CategoryName} category added. ID of {category.CategoryId}.");
                             }
                         }
                         if (!isValid)
