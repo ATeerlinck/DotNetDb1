@@ -28,6 +28,10 @@ namespace Final
                     Console.WriteLine("3) Display Category and related products"); 
                     Console.WriteLine("4) Display all Categories and their related products");
                     Console.WriteLine("5) Delete Category");
+                    Console.WriteLine("6) Add Product");
+                    Console.WriteLine("7) Delete Product");
+                    Console.WriteLine("8) Display Products");
+                    Console.WriteLine("9) Display one Product");
                     Console.WriteLine("\"q\" to quit");
                     choice = Console.ReadLine();
                     Console.Clear();
@@ -164,6 +168,105 @@ namespace Final
                             db.DeleteCategory(category);
                         }
                         Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else if(choice == "6"){
+                        var db = new Northwind_DotNetDb_ABTContext();
+                        Products product = new Products();
+                        Console.WriteLine("Enter product Name:");
+                        product.ProductName = Console.ReadLine();
+                        Console.WriteLine("Enter the Supplier ID:");
+                        //display suppliers
+                        Console.ForegroundColor = ConsoleColor.DarkBlue;
+                        var suppliers = db.Suppliers.OrderBy(s => s.SupplierId);
+                        foreach (Suppliers s in suppliers){
+                            Console.WriteLine($"{s.SupplierId}: {s.CompanyName}");
+                        }
+                        //select supplier
+                        Console.ForegroundColor = ConsoleColor.White;
+                        if (int.TryParse(Console.ReadLine(), out int SupplierId)){
+                            Suppliers supplier = db.Suppliers.FirstOrDefault(s => s.SupplierId == SupplierId);
+                            if(supplier != null){
+                                product.SupplierId = supplier.SupplierId;
+                                product.Supplier = supplier;
+                                logger.Info($"SupplierID# {product.SupplierId} found.");
+                            }
+                            else{
+                                logger.Error("Invalid Supplier ID. Supplier set to null");
+                                product.SupplierId = null;
+                                product.Supplier = null;
+                            }
+                        }
+                        //display categories
+                        var query = db.Categories.OrderBy(p => p.CategoryId);
+                        Console.WriteLine("Select the category whose products you want to display:");
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        foreach (var item in query)
+                        {
+                            Console.WriteLine($"{item.CategoryId}) {item.CategoryName}");
+                        }
+                        Console.ForegroundColor = ConsoleColor.White;
+                        //select category
+                        int id = int.Parse(Console.ReadLine());
+                        logger.Info($"CategoryId {id} selected");
+                        Categories category = db.Categories.FirstOrDefault(c => c.CategoryId == id);
+                        if(category != null){
+                                product.CategoryId = category.CategoryId;
+                                product.Category = category;
+                                logger.Info($"CategoryID# {product.CategoryId} found.");
+                            }
+                            else{
+                                logger.Error("Invalid Category ID. Category set to null");
+                                product.CategoryId = null;
+                                product.Category = null;
+                            }
+                        //set the rest
+                        Console.WriteLine("Enter the Quantity Per Unit:");
+                        product.QuantityPerUnit = Console.ReadLine();
+                        Console.WriteLine("Enter the Unit Price:");
+                        product.UnitPrice = decimal.Parse(Console.ReadLine());
+                        Console.WriteLine("Enter Units in Stock:");
+                        product.UnitsInStock = short.Parse(Console.ReadLine());
+                        Console.WriteLine("Enter Units on Order:");
+                        product.UnitsOnOrder = short.Parse(Console.ReadLine());
+                        Console.WriteLine("Enter ReorderLevel:");
+                        product.ReorderLevel = short.Parse(Console.ReadLine());
+                        Console.WriteLine("Is the product Discontinued: y/n");
+                        product.Discontinued = Console.ReadLine() == "y" ? false : true;
+
+                        ValidationContext context = new ValidationContext(product, null, null);
+                        List<ValidationResult> results = new List<ValidationResult>();
+
+                        var isValid = Validator.TryValidateObject(product, context, results, true);
+                        if (isValid)
+                        {
+                            
+                            // check for unique name
+                            if (db.Products.Any(c => c.ProductName == product.ProductName))
+                            {
+                                // generate validation error
+                                isValid = false;
+                                results.Add(new ValidationResult("Name exists", new string[] { "ProductName" }));
+                            }
+                            else
+                            {
+                                logger.Info("Validation passed");
+                                db.AddProduct(product);
+                                logger.Info($"{product.ProductName} product added. ID of {product.ProductId}.");
+                            }
+                        }
+                        if (!isValid)
+                        {
+                            foreach (var result in results)
+                            {
+                                logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");
+                            }
+                        }
+                    }
+                    else if(choice == "7"){
+                        //add deletion of product
+                    }
+                    else if(choice == "8"){
+                        
                     }
                     Console.WriteLine();
 
