@@ -21,11 +21,13 @@ namespace Final
             {
                 string choice;
                 do
-                {
+                {   
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("1) Display Categories");
                     Console.WriteLine("2) Add Category");
                     Console.WriteLine("3) Display Category and related products"); 
                     Console.WriteLine("4) Display all Categories and their related products");
+                    Console.WriteLine("5) Delete Category");
                     Console.WriteLine("\"q\" to quit");
                     choice = Console.ReadLine();
                     Console.Clear();
@@ -69,7 +71,7 @@ namespace Final
                             else
                             {
                                 logger.Info("Validation passed");
-                                db.Categories.Add(category);
+                                db.AddCategory(category);
                                 logger.Info($"{category.CategoryName} category added. ID of {category.CategoryId}.");
                             }
                         }
@@ -115,6 +117,53 @@ namespace Final
                                 Console.WriteLine($"\t{p.ProductName}");
                             }
                         }
+                    }
+                    else if(choice == "5"){
+                        var db = new Northwind_DotNetDb_ABTContext();
+                        var query = db.Categories.OrderBy(p => p.CategoryId);
+
+                        Console.WriteLine("Select the category whose products you want to display:");
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        foreach (var item in query)
+                        {
+                            Console.WriteLine($"{item.CategoryId}) {item.CategoryName}");
+                        }
+                        Console.ForegroundColor = ConsoleColor.White;
+                        int id = int.Parse(Console.ReadLine());
+                        Console.Clear();
+                        logger.Info($"CategoryId {id} selected");
+                        Categories category = db.Categories.Include("Products").FirstOrDefault(c => c.CategoryId == id);
+                        if(category.Products.Count > 0){
+                            
+                        Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("WARNING! You are about to remove a category that has products still in it. If you are going to make a new category or categories for the products in this one, make those categories now and move the products. ");
+                            Console.WriteLine("Would you like to: \n1) Orphan the products \n2) Remove the products \n3) Not remove this category");
+                            int ans = int.Parse(Console.ReadLine());
+                            if(ans == 1){
+                                Console.WriteLine("Last chance to turn back. Are you sure about orphaning the related products and removing this category? y/n");
+                                string last = Console.ReadLine();
+                                if(last == "y"){
+                                    logger.Info($"CategoryId {id} removed. {category.Products.Count()} have been orphaned");
+                                    db.DeleteCategory(category);
+                                }
+                            }
+                            else if(ans == 2){
+                                Console.WriteLine("Last chance to turn back. Are you sure about deleting the related products and removing this category? y/n");
+                                string last = Console.ReadLine();
+                                if(last == "y"){
+                                    logger.Info($"CategoryId {id} removed. {category.Products.Count()} have been deleted");
+                                    db.DeleteCategory(category);
+                                }
+                            }
+                            else if(ans == 3){
+                                logger.Info("Category removal aborted");
+                            }
+                        }
+                        else{
+                            logger.Info($"CategoryId {id} removed");
+                            db.DeleteCategory(category);
+                        }
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     Console.WriteLine();
 

@@ -39,6 +39,17 @@ namespace Final.Model
             }
         }
 
+        public void AddCategory(Categories categories)
+        {
+            this.Categories.Add(categories);
+            this.SaveChanges();
+        }
+        public void DeleteCategory(Categories categories)
+        {
+            this.Categories.Remove(categories);
+            this.SaveChanges();
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Categories>(entity =>
