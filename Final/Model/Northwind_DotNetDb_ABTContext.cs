@@ -39,14 +39,36 @@ namespace Final.Model
             }
         }
 
-        public void AddCategory(Categories categories)
+        public void AddCategory(Categories categorie)
         {
-            this.Categories.Add(categories);
+            this.Categories.Add(categorie);
             this.SaveChanges();
         }
-        public void DeleteCategory(Categories categories)
+        public void EditCategorie(Categories updatedCategory)
         {
-            this.Categories.Remove(categories);
+            Categories Category = this.Categories.Find(updatedCategory.CategoryId);
+            Category.CategoryName = updatedCategory.CategoryName;
+            this.SaveChanges();
+        }
+        public void DeleteCategory(Categories categorie)
+        {
+            this.Categories.Remove(categorie);
+            this.SaveChanges();
+        }
+        public void AddProduct(Products product)
+        {
+            this.Products.Add(product);
+            this.SaveChanges();
+        }
+        public void EditProduct(Products updatedProduct)
+        {
+            Products product = this.Products.Find(updatedProduct.ProductId);
+            product.ProductName = updatedProduct.ProductName;
+            this.SaveChanges();
+        }
+        public void DeleteProduct(Products product)
+        {
+            this.Products.Remove(product);
             this.SaveChanges();
         }
 
