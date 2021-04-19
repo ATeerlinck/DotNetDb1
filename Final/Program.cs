@@ -231,7 +231,7 @@ namespace Final
                         Console.WriteLine("Enter ReorderLevel:");
                         product.ReorderLevel = short.Parse(Console.ReadLine());
                         Console.WriteLine("Is the product Discontinued: y/n");
-                        product.Discontinued = Console.ReadLine() == "y" ? false : true;
+                        product.Discontinued = Console.ReadLine().ToLower() == "y" ? true : false;
 
                         ValidationContext context = new ValidationContext(product, null, null);
                         List<ValidationResult> results = new List<ValidationResult>();
@@ -266,6 +266,36 @@ namespace Final
                         //add deletion of product
                     }
                     else if(choice == "8"){
+                        //selector
+                        Console.WriteLine("1) Display all");
+                        Console.WriteLine("2) Display active");
+                        Console.WriteLine("3) Display discontinued");
+                        choice = Console.ReadLine();
+                        //executor
+                        var db = new Northwind_DotNetDb_ABTContext();
+                        var query = db.Products.OrderBy(p => p.ProductName);
+                        if(choice == "1"){
+                            query = db.Products.OrderBy(p => p.ProductName);
+                        }
+                        else if(choice == "2"){
+                            query = db.Products.Where(p => p.Discontinued == false).OrderBy(p => p.ProductName);
+                        }
+                        else if(choice == "3"){
+                            query = db.Products.Where(p => p.Discontinued == true).OrderBy(p => p.ProductName);
+                        }
+                        else{
+                            logger.Error("invalid choice selected. defaulting to all.");
+                        }
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"{query.Count()} records returned");
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        foreach (var item in query)
+                        {
+                            Console.WriteLine($"{item.ProductName}");
+                        }
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else if(choice == "9"){
                         
                     }
                     Console.WriteLine();
