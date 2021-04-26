@@ -47,7 +47,7 @@ namespace Final.Model
         public void EditCategory(Categories updatedCategory)
         {
             Categories Category = this.Categories.Find(updatedCategory.CategoryId);
-            Category.CategoryName = updatedCategory.CategoryName;
+            Category = updatedCategory;
             this.SaveChanges();
         }
         public void DeleteCategory(Categories category)
@@ -63,7 +63,7 @@ namespace Final.Model
         public void EditProduct(Products updatedProduct)
         {
             Products product = this.Products.Find(updatedProduct.ProductId);
-            product.ProductName = updatedProduct.ProductName;
+            product = updatedProduct;
             this.SaveChanges();
         }
         public void DeleteProduct(Products product)
