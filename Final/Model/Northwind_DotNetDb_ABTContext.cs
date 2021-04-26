@@ -44,7 +44,7 @@ namespace Final.Model
             this.Categories.Add(categorie);
             this.SaveChanges();
         }
-        public void EditCategorie(Categories updatedCategory)
+        public void EditCategory(Categories updatedCategory)
         {
             Categories Category = this.Categories.Find(updatedCategory.CategoryId);
             Category.CategoryName = updatedCategory.CategoryName;

@@ -32,6 +32,7 @@ namespace Final
                     Console.WriteLine("7) Delete Product");
                     Console.WriteLine("8) Display Products");
                     Console.WriteLine("9) Display one Product");
+                    Console.WriteLine("10) Edit Product");
                     Console.WriteLine("\"q\" to quit");
                     choice = Console.ReadLine();
                     Console.Clear();
@@ -339,6 +340,22 @@ namespace Final
                         Console.WriteLine($"Reorder Level: {product.ReorderLevel}");
                         Console.WriteLine($"Discontinued: {product.Discontinued}");
                         Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else if(choice == "10"){
+                        Console.WriteLine("Select the product you want to edit");
+                        var db = new Northwind_DotNetDb_ABTContext();
+                        var query = db.Products.OrderBy(p => p.ProductId);
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        foreach (var item in query)
+                        {
+                            Console.WriteLine($"{item.ProductId}) {item.ProductName}");
+                        }
+                        Console.ForegroundColor = ConsoleColor.White;
+                        int id = int.Parse(Console.ReadLine());
+                        Console.Clear();
+                        logger.Info($"ProductId {id} selected");
+                        Products product = db.Products.FirstOrDefault(c => c.ProductId == id);
+                        //add editing from adding sections
                     }
                     Console.WriteLine();
 
