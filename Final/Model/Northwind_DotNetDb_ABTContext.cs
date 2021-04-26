@@ -39,9 +39,9 @@ namespace Final.Model
             }
         }
 
-        public void AddCategory(Categories categorie)
+        public void AddCategory(Categories category)
         {
-            this.Categories.Add(categorie);
+            this.Categories.Add(category);
             this.SaveChanges();
         }
         public void EditCategory(Categories updatedCategory)
@@ -50,9 +50,9 @@ namespace Final.Model
             Category.CategoryName = updatedCategory.CategoryName;
             this.SaveChanges();
         }
-        public void DeleteCategory(Categories categorie)
+        public void DeleteCategory(Categories category)
         {
-            this.Categories.Remove(categorie);
+            this.Categories.Remove(category);
             this.SaveChanges();
         }
         public void AddProduct(Products product)
