@@ -33,6 +33,8 @@ namespace Final
                     Console.WriteLine("8) Display Products");
                     Console.WriteLine("9) Display one Product");
                     Console.WriteLine("10) Edit Product");
+                    Console.WriteLine("11) Display Category with its active products");
+                    Console.WriteLine("12) Display all Categories with their active products");
                     Console.WriteLine("\"q\" to quit");
                     choice = Console.ReadLine();
                     Console.Clear();
@@ -139,31 +141,9 @@ namespace Final
                         logger.Info($"CategoryId {id} selected");
                         Categories category = db.Categories.Include("Products").FirstOrDefault(c => c.CategoryId == id);
                         if(category.Products.Count > 0){
-                            
-                        Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("WARNING! You are about to remove a category that has products still in it. If you are going to make a new category or categories for the products in this one, make those categories now and move the products. ");
-                            Console.WriteLine("Would you like to: \n1) Orphan the products \n2) Remove the products \n3) Not remove this category");
-                            int ans = int.Parse(Console.ReadLine());
-                            logger.Info($"Option {ans} selected");
-                            if(ans == 1){
-                                Console.WriteLine("Last chance to turn back. Are you sure about orphaning the related products and removing this category? y/n");
-                                string last = Console.ReadLine();
-                                if(last == "y"){
-                                    logger.Info($"CategoryId {id} removed. {category.Products.Count()} have been orphaned");
-                                    db.DeleteCategory(category);
-                                }
-                            }
-                            else if(ans == 2){
-                                Console.WriteLine("Last chance to turn back. Are you sure about deleting the related products and removing this category? y/n");
-                                string last = Console.ReadLine();
-                                if(last == "y"){
-                                    logger.Info($"CategoryId {id} removed. {category.Products.Count()} have been deleted");
-                                    db.DeleteCategory(category);
-                                }
-                            }
-                            else if(ans == 3){
-                                logger.Info("Category removal aborted");
-                            }
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("WARNING! You were about to remove a category that has products still in it. The products in this category must be removed first. ");
+                            logger.Info("Category removal aborted");
                         }
                         else{
                             logger.Info($"CategoryId {id} removed");
@@ -200,7 +180,7 @@ namespace Final
                         }
                         //display categories
                         var query = db.Categories.OrderBy(p => p.CategoryId);
-                        Console.WriteLine("Select the category whose products you want to display:");
+                        Console.WriteLine("Select the category for this product:");
                         Console.ForegroundColor = ConsoleColor.DarkRed;
                         foreach (var item in query)
                         {
@@ -253,7 +233,7 @@ namespace Final
                             {
                                 logger.Info("Validation passed");
                                 db.AddProduct(product);
-                                logger.Info($"{product.ProductName} product added. Id of {product.ProductId}.");
+                                logger.Info($"{product.ProductName} added. Id of {product.ProductId}.");
                             }
                         }
                         if (!isValid)
@@ -355,7 +335,133 @@ namespace Final
                         Console.Clear();
                         logger.Info($"ProductId {id} selected");
                         Products product = db.Products.FirstOrDefault(c => c.ProductId == id);
-                        //add editing from adding sections
+                        while(choice != "0"){
+                            Console.WriteLine("What do you want to edit?");
+                            Console.WriteLine("1)Name \n2)Supplier \n3)Category \n4)Quantity per Unit \n5)Unit Price \n6)Units In Stock: \n7)Units On Order \n8)Reorder Level \n9)Discontinued \n0)End Editing");
+                            choice = Console.ReadLine();
+                            switch(choice){
+                                case "1": Console.WriteLine("What is the product's new name");
+                                product.ProductName = Console.ReadLine();
+                                break;
+                                case "2": Console.WriteLine("Select the products supplier:");
+                                //display suppliers
+                                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                                var suppliers = db.Suppliers.OrderBy(s => s.SupplierId);
+                                foreach (Suppliers s in suppliers){
+                                    Console.WriteLine($"{s.SupplierId}: {s.CompanyName}");
+                                }
+                                //select supplier
+                                Console.ForegroundColor = ConsoleColor.White;
+                                if (int.TryParse(Console.ReadLine(), out int SupplierId)){
+                                    Suppliers supplier = db.Suppliers.FirstOrDefault(s => s.SupplierId == SupplierId);
+                                    if(supplier != null){
+                                        product.SupplierId = supplier.SupplierId;
+                                        product.Supplier = supplier;
+                                        logger.Info($"SupplierId# {product.SupplierId} found.");
+                                    }
+                                    else{
+                                        logger.Error("Invalid Supplier Id. Supplier set to null");
+                                        product.SupplierId = null;
+                                        product.Supplier = null;
+                                    }
+                                }
+                                break;
+                                case "3": Console.WriteLine("What is the product's new name");
+                                //display categories
+                                var categories = db.Categories.OrderBy(p => p.CategoryId);
+                                Console.WriteLine("Select the category for this product:");
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
+                                foreach (var item in categories)
+                                {
+                                    Console.WriteLine($"{item.CategoryId}) {item.CategoryName}");
+                                }
+                                Console.ForegroundColor = ConsoleColor.White;
+                                //select category
+                                id = int.Parse(Console.ReadLine());
+                                logger.Info($"CategoryId {id} selected");
+                                Categories category = db.Categories.FirstOrDefault(c => c.CategoryId == id);
+                                if(category != null){
+                                        product.CategoryId = category.CategoryId;
+                                        product.Category = category;
+                                        logger.Info($"CategoryId# {product.CategoryId} found.");
+                                    }
+                                    else{
+                                        logger.Error("Invalid Category Id. Category set to null");
+                                        product.CategoryId = null;
+                                        product.Category = null;
+                                    }
+                                break;
+                                case "4": Console.WriteLine("Enter the Quantity Per Unit:");
+                                product.QuantityPerUnit = Console.ReadLine();
+                                break;
+                                case "5": Console.WriteLine("Enter the Unit Price:");
+                                product.UnitPrice = decimal.Parse(Console.ReadLine());
+                                break;
+                                case "6": Console.WriteLine("Enter Units in Stock:");
+                                product.UnitsInStock = short.Parse(Console.ReadLine());
+                                break;
+                                case "7": Console.WriteLine("Enter Units on Order:");
+                                product.UnitsOnOrder = short.Parse(Console.ReadLine());
+                                break;
+                                case "8": Console.WriteLine("Enter ReorderLevel:");
+                                product.ReorderLevel = short.Parse(Console.ReadLine());
+                                break;
+                                case "9": Console.WriteLine("Is the product Discontinued: y/n");
+                                product.Discontinued = Console.ReadLine().ToLower() == "y" ? true : false;
+                                break;
+                                case "0":
+                                default: break;
+                            }
+                        }
+                        try{
+                            db.EditProduct(product);
+                            logger.Info($"{product.ProductName} was updated.");
+                        }
+                        catch(Exception ex){
+                            logger.Error(ex.Message);
+                        }
+                    }
+                    else if(choice =="11"){
+                        var db = new Northwind_DotNetDb_ABTContext();
+                        var query = db.Categories.OrderBy(p => p.CategoryId);
+
+                        Console.WriteLine("Select the category whose products you want to display:");
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        foreach (var item in query)
+                        {
+                            Console.WriteLine($"{item.CategoryId}) {item.CategoryName}");
+                        }
+                        Console.ForegroundColor = ConsoleColor.White;
+                        int id = int.Parse(Console.ReadLine());
+                        Console.Clear();
+                        logger.Info($"CategoryId {id} selected");
+                        Categories category = db.Categories.Include("Products").FirstOrDefault(c => c.CategoryId == id);
+                        Console.WriteLine($"{category.CategoryName} - {category.Description}");
+                        foreach (Products p in category.Products)
+                        {
+                            if(p.Discontinued==false) Console.WriteLine(p.ProductName);
+                        }
+                    }
+                    else if(choice =="12"){
+                        var db = new Northwind_DotNetDb_ABTContext();
+                        var query = db.Categories.OrderBy(p => p.CategoryId);
+
+                        Console.WriteLine("Select the category whose products you want to display:");
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        foreach (var item in query)
+                        {
+                            Console.WriteLine($"{item.CategoryId}) {item.CategoryName}");
+                        }
+                        Console.ForegroundColor = ConsoleColor.White;
+                        int id = int.Parse(Console.ReadLine());
+                        Console.Clear();
+                        logger.Info($"CategoryId {id} selected");
+                        Categories category = db.Categories.Include("Products").FirstOrDefault(c => c.CategoryId == id);
+                        Console.WriteLine($"{category.CategoryName} - {category.Description}");
+                        foreach (Products p in category.Products)
+                        {
+                            if(p.Discontinued==false) Console.WriteLine(p.ProductName);
+                        }
                     }
                     Console.WriteLine();
 
