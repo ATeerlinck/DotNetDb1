@@ -25,8 +25,8 @@ namespace Final
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("1)  Display Categories");
                     Console.WriteLine("2)  Add Category");
-                    Console.WriteLine("3)  Display Category and related products");
-                    Console.WriteLine("4)  Display all Categories and their related products");
+                    Console.WriteLine("3)  Display Category and all related products");
+                    Console.WriteLine("4)  Display all Categories and all their related products");
                     Console.WriteLine("5)  Delete Category");
                     Console.WriteLine("6)  Add Product");
                     Console.WriteLine("7)  Delete Product");
