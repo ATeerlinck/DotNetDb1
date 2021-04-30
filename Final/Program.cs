@@ -162,7 +162,7 @@ namespace Final
                         Console.WriteLine("Enter product Name:");
                         product.ProductName = Console.ReadLine();
                         Console.WriteLine("Enter the Supplier Id:");
-                        //display suppliers
+                        try{//display suppliers
                         Console.ForegroundColor = ConsoleColor.DarkBlue;
                         var suppliers = db.Suppliers.OrderBy(s => s.SupplierId);
                         foreach (Suppliers s in suppliers)
@@ -216,12 +216,12 @@ namespace Final
                         Console.WriteLine("Enter the Quantity Per Unit:");
                         product.QuantityPerUnit = Console.ReadLine();
                         Console.WriteLine("Enter the Unit Price:");
-                        product.UnitPrice = decimal.Parse(Console.ReadLine());
+                        product.UnitPrice = Math.Round(decimal.Parse(Console.ReadLine()),2);
                         Console.WriteLine("Enter Units in Stock:");
                         product.UnitsInStock = short.Parse(Console.ReadLine());
                         Console.WriteLine("Enter Units on Order:");
                         product.UnitsOnOrder = short.Parse(Console.ReadLine());
-                        Console.WriteLine("Enter ReorderLevel:");
+                        Console.WriteLine("Enter ReorderLevel: eg. 2");
                         product.ReorderLevel = short.Parse(Console.ReadLine());
                         Console.WriteLine("Is the product Discontinued: y/n");
                         product.Discontinued = Console.ReadLine().ToLower() == "y" ? true : false;
@@ -254,6 +254,9 @@ namespace Final
                                 logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");
                             }
                         }
+                        } catch(Exception ex){
+                            logger.Error(ex.Message);
+                        }
                     }
                     else if (choice == "7")
                     {
@@ -273,8 +276,25 @@ namespace Final
                         Console.WriteLine($"Are you sure you want to remove {product.ProductName}? y/n");
                         if (Console.ReadLine().ToLower() == "y")
                         {
-                            logger.Info($"ProductId {id} removed");
-                            db.DeleteProduct(product);
+                            //Make chack for dependencies and fake fix it by discontinuing product
+                            if(db.OrderDetails.Any(o => o.ProductId==id)){
+                                logger.Warn($"ProductID {id} is involved in at least one order, making it necessary for it to stay on this database. It will be marked as discontinued if you so choose. If you pick no, no changes will be made.");
+                                Console.WriteLine($"Do you want to discontinue {product.ProductName}? y/n");
+                                if (Console.ReadLine().ToLower() == "y"){
+                                    product.Discontinued = true;
+                                    db.EditProduct(product);
+                                    logger.Info($"ProductId {id} discontinued"); 
+                                }
+                                else logger.Info($"ProductId {id} unchanged");
+                            }
+                            else {
+                                try{
+                                    db.DeleteProduct(product);
+                                    logger.Info($"ProductId {id} removed"); 
+                                } catch (Exception ex){
+                                    logger.Error(ex.Message);
+                                }
+                            }
                         }
                     }
                     else if (choice == "8")
@@ -304,6 +324,7 @@ namespace Final
                         {
                             logger.Error("invalid choice selected. defaulting to all.");
                         }
+                        //display
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine($"{query.Count()} records returned");
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -333,7 +354,7 @@ namespace Final
                         Console.WriteLine($"Id: {product.ProductId}");
                         Console.WriteLine($"SupplierId: {product.SupplierId}");
                         Console.WriteLine($"CategoryId: {product.CategoryId}");
-                        Console.WriteLine($"Unit Price: ${product.UnitPrice}");
+                        Console.WriteLine($"Unit Price: ${Math.Round((decimal)product.UnitPrice,2)}");
                         Console.WriteLine($"Units In Stock: {product.UnitsInStock}");
                         Console.WriteLine($"Units On Order: {product.UnitsOnOrder}");
                         Console.WriteLine($"Reorder Level: {product.ReorderLevel}");
@@ -454,7 +475,7 @@ namespace Final
                                     break;
                                 case "5":
                                     Console.WriteLine("Enter the Unit Price:");
-                                    product.UnitPrice = decimal.Parse(Console.ReadLine());
+                                    product.UnitPrice = Math.Round(decimal.Parse(Console.ReadLine()),2);
                                     logger.Info("Price updated");
                                     break;
                                 case "6":
