@@ -171,21 +171,17 @@ namespace Final
                         }
                         //select supplier
                         Console.ForegroundColor = ConsoleColor.White;
-                        if (int.TryParse(Console.ReadLine(), out int SupplierId))
+                        int.TryParse(Console.ReadLine(), out int SupplierId);
+                        Suppliers supplier = db.Suppliers.FirstOrDefault(s => s.SupplierId == SupplierId);
+                        if (supplier != null)
                         {
-                            Suppliers supplier = db.Suppliers.FirstOrDefault(s => s.SupplierId == SupplierId);
-                            if (supplier != null)
-                            {
-                                product.SupplierId = supplier.SupplierId;
-                                product.Supplier = supplier;
-                                logger.Info($"SupplierId# {product.SupplierId} found.");
-                            }
-                            else
-                            {
-                                logger.Error("Invalid Supplier Id. Supplier set to null");
-                                product.SupplierId = null;
-                                product.Supplier = null;
-                            }
+                            product.SupplierId = supplier.SupplierId;
+                            product.Supplier = supplier;
+                            logger.Info($"SupplierId# {product.SupplierId} found.");
+                        }
+                        else
+                        {
+                            throw new ArgumentException("Invalid Supplier Id. This error was caused by an incorrect data type being entered. It is most likely from entering a character instead a number");
                         }
                         //display categories
                         var query = db.Categories.OrderBy(p => p.CategoryId);
@@ -197,7 +193,7 @@ namespace Final
                         }
                         Console.ForegroundColor = ConsoleColor.White;
                         //select category
-                        int id = int.Parse(Console.ReadLine());
+                        int.TryParse(Console.ReadLine(), out int id);
                         logger.Info($"CategoryId {id} selected");
                         Categories category = db.Categories.FirstOrDefault(c => c.CategoryId == id);
                         if (category != null)
@@ -208,18 +204,16 @@ namespace Final
                         }
                         else
                         {
-                            logger.Error("Invalid Category Id. Category set to null");
-                            product.CategoryId = null;
-                            product.Category = null;
+                            throw new ArgumentException("Invalid Category Id. This error was caused by an incorrect data type being entered. It is most likely from entering a character instead a number");
                         }
                         //set the rest
-                        Console.WriteLine("Enter the Quantity Per Unit:");
+                        Console.WriteLine("Enter the Quantity Per Unit: e.g. 12 cups");
                         product.QuantityPerUnit = Console.ReadLine();
-                        Console.WriteLine("Enter the Unit Price:");
+                        Console.WriteLine("Enter the Unit Price: e.g. 12.50");
                         product.UnitPrice = Math.Round(decimal.Parse(Console.ReadLine()),2);
-                        Console.WriteLine("Enter Units in Stock:");
+                        Console.WriteLine("Enter Units in Stock: e.g. 42");
                         product.UnitsInStock = short.Parse(Console.ReadLine());
-                        Console.WriteLine("Enter Units on Order:");
+                        Console.WriteLine("Enter Units on Order: e.g. 30");
                         product.UnitsOnOrder = short.Parse(Console.ReadLine());
                         Console.WriteLine("Enter ReorderLevel: eg. 2");
                         product.ReorderLevel = short.Parse(Console.ReadLine());
@@ -378,54 +372,54 @@ namespace Final
                         Products product = db.Products.FirstOrDefault(c => c.ProductId == id);
                         while (choice != "0")
                         {
-                            Console.WriteLine("What do you want to edit?");
-                            Console.WriteLine("1)Name \n2)Supplier \n3)Category \n4)Quantity per Unit \n5)Unit Price \n6)Units In Stock: \n7)Units On Order \n8)Reorder Level \n9)Discontinued \n0)End Editing");
-                            choice = Console.ReadLine();
-                            switch (choice)
-                            {
-                                case "1":
-                                    Console.WriteLine("Enter the product's new name");
-                                    product.ProductName = Console.ReadLine();
-                                    ValidationContext context = new ValidationContext(product, null, null);
-                                    List<ValidationResult> results = new List<ValidationResult>();
+                            try {
+                                Console.WriteLine("What do you want to edit?");
+                                Console.WriteLine("1)Name \n2)Supplier \n3)Category \n4)Quantity per Unit \n5)Unit Price \n6)Units In Stock \n7)Units On Order \n8)Reorder Level \n9)Discontinued \n0)End Editing");
+                                choice = Console.ReadLine();
+                                switch (choice)
+                                {
+                                    case "1":
+                                        Console.WriteLine("Enter the product's new name");
+                                        product.ProductName = Console.ReadLine();
+                                        ValidationContext context = new ValidationContext(product, null, null);
+                                        List<ValidationResult> results = new List<ValidationResult>();
 
-                                    var isValid = Validator.TryValidateObject(product, context, results, true);
-                                    if (isValid)
-                                    {
+                                        var isValid = Validator.TryValidateObject(product, context, results, true);
+                                        if (isValid)
+                                        {
 
-                                        // check for unique name
-                                        if (db.Products.Any(c => c.ProductName == product.ProductName))
-                                        {
-                                            // generate validation error
-                                            isValid = false;
-                                            results.Add(new ValidationResult("Name exists", new string[] { "ProductName" }));
+                                            // check for unique name
+                                            if (db.Products.Any(c => c.ProductName == product.ProductName))
+                                            {
+                                                // generate validation error
+                                                isValid = false;
+                                                results.Add(new ValidationResult("Name exists", new string[] { "ProductName" }));
+                                            }
+                                            else
+                                            {
+                                                logger.Info("Validation passed");
+                                            }
                                         }
-                                        else
+                                        if (!isValid)
                                         {
-                                            logger.Info("Validation passed");
+                                            foreach (var result in results)
+                                            {
+                                                logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");
+                                            }
                                         }
-                                    }
-                                    if (!isValid)
-                                    {
-                                        foreach (var result in results)
+                                        break;
+                                    case "2":
+                                        Console.WriteLine("Select the products supplier:");
+                                        //display suppliers
+                                        Console.ForegroundColor = ConsoleColor.DarkBlue;
+                                        var suppliers = db.Suppliers.OrderBy(s => s.SupplierId);
+                                        foreach (Suppliers s in suppliers)
                                         {
-                                            logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");
+                                            Console.WriteLine($"{s.SupplierId}: {s.CompanyName}");
                                         }
-                                    }
-                                    break;
-                                case "2":
-                                    Console.WriteLine("Select the products supplier:");
-                                    //display suppliers
-                                    Console.ForegroundColor = ConsoleColor.DarkBlue;
-                                    var suppliers = db.Suppliers.OrderBy(s => s.SupplierId);
-                                    foreach (Suppliers s in suppliers)
-                                    {
-                                        Console.WriteLine($"{s.SupplierId}: {s.CompanyName}");
-                                    }
-                                    //select supplier
-                                    Console.ForegroundColor = ConsoleColor.White;
-                                    if (int.TryParse(Console.ReadLine(), out int SupplierId))
-                                    {
+                                        //select supplier
+                                        Console.ForegroundColor = ConsoleColor.White;
+                                        int.TryParse(Console.ReadLine(), out int SupplierId);
                                         Suppliers supplier = db.Suppliers.FirstOrDefault(s => s.SupplierId == SupplierId);
                                         if (supplier != null)
                                         {
@@ -435,71 +429,69 @@ namespace Final
                                         }
                                         else
                                         {
-                                            logger.Error("Invalid Supplier Id. Supplier set to null");
-                                            product.SupplierId = null;
-                                            product.Supplier = null;
+                                            logger.Error("Invalid Category Id. Supplier unchanged");
                                         }
-                                    }
-                                    break;
-                                case "3":
-                                    //display categories
-                                    var categories = db.Categories.OrderBy(p => p.CategoryId);
-                                    Console.WriteLine("Select the category for this product:");
-                                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                                    foreach (var item in categories)
-                                    {
-                                        Console.WriteLine($"{item.CategoryId}) {item.CategoryName}");
-                                    }
-                                    Console.ForegroundColor = ConsoleColor.White;
-                                    //select category
-                                    id = int.Parse(Console.ReadLine());
-                                    logger.Info($"CategoryId {id} selected");
-                                    Categories category = db.Categories.FirstOrDefault(c => c.CategoryId == id);
-                                    if (category != null)
-                                    {
-                                        product.CategoryId = category.CategoryId;
-                                        product.Category = category;
-                                        logger.Info($"CategoryId# {product.CategoryId} found.");
-                                    }
-                                    else
-                                    {
-                                        logger.Error("Invalid Category Id. Category set to null");
-                                        product.CategoryId = null;
-                                        product.Category = null;
-                                    }
-                                    break;
-                                case "4":
-                                    Console.WriteLine("Enter the Quantity Per Unit:");
-                                    logger.Info("Quantity updated");
-                                    product.QuantityPerUnit = Console.ReadLine();
-                                    break;
-                                case "5":
-                                    Console.WriteLine("Enter the Unit Price:");
-                                    product.UnitPrice = Math.Round(decimal.Parse(Console.ReadLine()),2);
-                                    logger.Info("Price updated");
-                                    break;
-                                case "6":
-                                    Console.WriteLine("Enter Units in Stock:");
-                                    product.UnitsInStock = short.Parse(Console.ReadLine());
-                                    logger.Info("Units in stock updated");
-                                    break;
-                                case "7":
-                                    Console.WriteLine("Enter Units on Order:");
-                                    product.UnitsOnOrder = short.Parse(Console.ReadLine());
-                                    logger.Info("Units on order updated");
-                                    break;
-                                case "8":
-                                    Console.WriteLine("Enter Reorder Level:");
-                                    product.ReorderLevel = short.Parse(Console.ReadLine());
-                                    logger.Info("Reorcer level updated");
-                                    break;
-                                case "9":
-                                    Console.WriteLine("Is the product Discontinued: y/n");
-                                    product.Discontinued = Console.ReadLine().ToLower() == "y" ? true : false;
-                                    logger.Info("Discontinuation updated");
-                                    break;
-                                case "0":
-                                default: break;
+                                        break;
+                                    case "3":
+                                        //display categories
+                                        var categories = db.Categories.OrderBy(p => p.CategoryId);
+                                        Console.WriteLine("Select the category for this product:");
+                                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                                        foreach (var item in categories)
+                                        {
+                                            Console.WriteLine($"{item.CategoryId}) {item.CategoryName}");
+                                        }
+                                        Console.ForegroundColor = ConsoleColor.White;
+                                        //select category
+                                        int.TryParse(Console.ReadLine(), out id);
+                                        Categories category = db.Categories.FirstOrDefault(c => c.CategoryId == id);
+                                        if (category != null)
+                                        {
+                                            product.CategoryId = category.CategoryId;
+                                            product.Category = category;
+                                            logger.Info($"CategoryId# {product.CategoryId} found.");
+                                        }
+                                        else
+                                        {
+                                            logger.Error("Invalid Category Id. Category unchanged");
+
+                                        }
+                                        break;
+                                    case "4":
+                                        Console.WriteLine("Enter the Quantity Per Unit: e.g. 12 cups");
+                                        logger.Info("Quantity updated");
+                                        product.QuantityPerUnit = Console.ReadLine();
+                                        break;
+                                    case "5":
+                                        Console.WriteLine("Enter the Unit Price: e.g. 12.50");
+                                        product.UnitPrice = Math.Round(decimal.Parse(Console.ReadLine()),2);
+                                        logger.Info("Price updated");
+                                        break;
+                                    case "6":
+                                        Console.WriteLine("Enter Units in Stock: e.g. 42");
+                                        product.UnitsInStock = short.Parse(Console.ReadLine());
+                                        logger.Info("Units in stock updated");
+                                        break;
+                                    case "7":
+                                        Console.WriteLine("Enter Units on Order: e.g. 30");
+                                        product.UnitsOnOrder = short.Parse(Console.ReadLine());
+                                        logger.Info("Units on order updated");
+                                        break;
+                                    case "8":
+                                        Console.WriteLine("Enter Reorder Level: eg. 2");
+                                        product.ReorderLevel = short.Parse(Console.ReadLine());
+                                        logger.Info("Reorcer level updated");
+                                        break;
+                                    case "9":
+                                        Console.WriteLine("Is the product Discontinued: y/n");
+                                        product.Discontinued = Console.ReadLine().ToLower() == "y" ? true : false;
+                                        logger.Info("Discontinuation updated");
+                                        break;
+                                    case "0":
+                                    default: break;
+                                }
+                            } catch (Exception ex){
+                                logger.Error(ex.Message);
                             }
                         }
                         try
@@ -543,7 +535,7 @@ namespace Final
                             Console.WriteLine($"{item.CategoryName}");
                             foreach (Products p in item.Products)
                             {
-                                if (p.Discontinued == false) Console.WriteLine(p.ProductName);
+                                if (p.Discontinued == false) Console.WriteLine("    "+p.ProductName);
                             }
                         }
                     }
